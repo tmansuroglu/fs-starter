@@ -23,9 +23,17 @@
 
 ## Project Structure
 
+- .husky/
+- prisma/
+- .env
 - .gitignore
-- package-lock.json
+- .prettierrc
+- commitlint.config.js
+- docker-compose.yaml
+- Dockerfile
+- eslint.config.mjs
 - tsconfig.json
+- package-lock.json
 - package.json
 - src/
   - index.ts
