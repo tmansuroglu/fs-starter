@@ -82,3 +82,12 @@
 - Decoupled future frontend possible
 - Easier testing, debugging, scaling
 - DRY: one logic source for both HTML & API
+
+# TODO
+
+- test library
+- aliases
+- zod
+- docker
+- kubernetes
+- react ?
