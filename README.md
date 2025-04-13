@@ -90,4 +90,5 @@
 - zod
 - docker
 - kubernetes
-- react ?
+- react ?,
+- pipeline setup
