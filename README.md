@@ -1,88 +1,76 @@
 ## Architecture Flow
 
-### For Visitors
-
-Browser (GET /web-route)
-↓
-Route → Controller
-↓
-Service → Repository
-↓
-PostgreSQL
-↓
-Controller returns rendered HTML view
-
-### For Admin Panel or API
-
-Browser (POST /api-endpoint)
-↓
-API Route → Controller
-↓
-Service → Repository
-↓
-PostgreSQL
-↓
-Returns JSON response
+- For Visitors
+  - Browser (GET /web-route)
+  - ↓
+  - Route → Controller
+  - ↓
+  - Service → Repository
+  - ↓
+  - PostgreSQL
+  - ↓
+  - Controller returns rendered HTML view
+- For Admin Panel or API
+  - Browser (POST /api-endpoint)
+  - ↓
+  - API Route → Controller
+  - ↓
+  - Service → Repository
+  - ↓
+  - PostgreSQL
+  - ↓
+  - Returns JSON response
 
 ## Project Structure
 
-portfolio/
-├── index.ts
-├── views/ ← HTML pages rendered with a view engine (like EJS, Pug)
-│ ├── home.ejs
-│ ├── projects.ejs
-│ └── blog.ejs
-├── public/ ← Static assets (CSS, images, JS)
-├── routes/
-│ ├── api/ ← JSON endpoints
-│ │ └── project.routes.js
-│ └── web/ ← HTML-rendered routes
-│ └── page.routes.js
-├── controllers/
-│ ├── api/
-│ │ └── project.controller.js
-│ └── web/
-│ └── page.controller.js
-├── services/
-│ └── project.service.js
-├── repositories/
-│ └── project.repository.js
-├── middlewares/
-│ └── auth.middleware.js
-├── config/
-│ └── db.js
-├── prisma/
-│ └── schema.prisma
-└── package.json
+- .gitignore
+- package-lock.json
+- tsconfig.json
+- package.json
+- src/
+  - index.ts
+  - views/ (HTML pages rendered with a view engine)
+    - home.ejs
+    - projects.ejs
+    - blog.ejs
+  - public/ (Static assets like CSS, images, TS)
+  - routes/
+    - api/ (JSON endpoints)
+      - project.routes.ts
+    - web/ (HTML-rendered routes)
+      - page.routes.ts
+  - controllers/
+    - api/
+      - project.controller.ts
+    - web/
+      - page.controller.ts
+  - services/
+    - project.service.ts
+  - repositories/
+    - project.repository.ts
+  - middlewares/
+    - auth.middleware.ts
+  - config/
+    - db.ts
+  - prisma/
+    - schema.prisma
 
 ## Example Use Case: Public Portfolio Page
 
-You visit: GET /projects
-This should render HTML, not return JSON.
+- You visit: GET /projects
+  - This should render HTML, not return JSON.
+  - Here's how it flows:
+  - page.routes.js maps GET /projects → PageController.showProjects
+  - PageController uses ProjectService.getPublishedProjects()
+  - ProjectService gets data via ProjectRepository
+  - It passes the list to a view like res.render("projects", { projects })
 
-Here's how it flows:
-page.routes.js maps GET /projects → PageController.showProjects
+## Split Routes: API vs Web
 
-PageController uses ProjectService.getPublishedProjects()
+- /api/projects → JSON endpoints (for admin panel)
+- /projects → Rendered pages (public portfolio)
 
-ProjectService gets data via ProjectRepository
-
-It passes the list to a view like res.render("projects", { projects })
-
-## Split Routes: API vs Web
-/api/projects → JSON endpoints (for admin panel)
-
-/projects → Rendered pages (public portfolio)
-
-## You might want:
-
-Login for admin
-
-Session-based auth middleware for CMS
-
-Flash messages (for success/error after posting)
-
-## Why This Hybrid Architecture Works Well
+## Why This Hybrid Architecture Works Well
 
 - Familiar to frontend devs
 - Views allow SEO & customization
