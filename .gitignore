@@ -17,9 +17,6 @@ pids/
 # Coverage reports
 coverage/
 
-# Environment variables
-.env
-.env.*.local
 
 # OS-related files
 .DS_Store
@@ -50,3 +47,12 @@ public/uploads/
 
 # TypeScript
 *.tsbuildinfo
+
+# Prisma files
+prisma/dev.db
+prisma/migrations/
+
+# .env files for environment variables
+.env
+prisma/.env
+.env.*.local
