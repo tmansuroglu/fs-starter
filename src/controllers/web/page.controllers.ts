@@ -7,3 +7,7 @@ export const renderHomePage: RequestHandler = (req, res) => {
 export const renderAdminPage: RequestHandler = (req, res) => {
   res.render("admin", { title: "This will be my admin page" })
 }
+
+export const renderLoginPage: RequestHandler = (req, res) => {
+  res.render("login", { title: "This will be my login page" })
+}
