@@ -9,5 +9,5 @@ export const renderAdminPage: RequestHandler = (req, res) => {
 }
 
 export const renderLoginPage: RequestHandler = (req, res) => {
-  res.render("login", { title: "This will be my login page" })
+  res.render("login", { title: "Login" })
 }

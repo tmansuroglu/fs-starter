@@ -2,8 +2,24 @@
 <html>
   <head>
     <title><%= title %></title>
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/login.css" />
   </head>
   <body>
-    <h1><%= title %></h1>
+    <form class="login-page-form" action="/login" method="POST">
+      <div class="login-page-form__input-wrapper">
+        <div>
+          <label for="username">Username:</label>
+          <br />
+          <input type="text" id="username" name="username" />
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <br />
+          <input type="password" id="password" name="password" />
+        </div>
+        <button type="submit">Login</button>
+      </div>
+    </form>
   </body>
 </html>
