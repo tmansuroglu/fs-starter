@@ -62,6 +62,7 @@
     - db.ts
   - prisma/
     - schema.prisma
+    - generated/
 
 ## Example Use Case: Public Portfolio Page
 
@@ -100,10 +101,16 @@
 - kubernetes
 - react ?,
 - pipeline setup
+- add csrf protection
+- add rate limiting for safety
+- add validation
+- HTTPS Only in Production
+- Set Security Headers
 
 # Steps
 
 - Build Login page
+
   - add validation to FE and BE
   - Create schema with prisma
   - use jwt and bcrypt
@@ -111,3 +118,5 @@
   - Make sure user count is limited to 1
   - Make sure api and web endpoints are safe
   - Add route guard middleware for admin page
+
+-

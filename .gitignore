@@ -56,3 +56,5 @@ prisma/migrations/
 .env
 prisma/.env
 .env.*.local
+
+prisma/generated
