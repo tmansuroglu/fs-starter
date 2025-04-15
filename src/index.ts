@@ -1,9 +1,7 @@
 import express from "express"
 import path from "path"
-import dotenv from "dotenv"
 import pageRouter from "./routes/web/page.routes"
-
-dotenv.config()
+import { env } from "./config/env"
 
 const app = express()
 
@@ -13,6 +11,6 @@ app.use(express.static(path.join(__dirname, "public")))
 
 app.use("/", pageRouter)
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running at http://localhost:${process.env.PORT}`)
+app.listen(env.PORT, () => {
+  console.log(`Server is running at http://localhost:${env.PORT}`)
 })
