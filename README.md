@@ -100,3 +100,14 @@
 - kubernetes
 - react ?,
 - pipeline setup
+
+# Steps
+
+- Build Login page
+  - add validation to FE and BE
+  - Create schema with prisma
+  - use jwt and bcrypt
+  - Create login and validation with SMS confirmation.
+  - Make sure user count is limited to 1
+  - Make sure api and web endpoints are safe
+  - Add route guard middleware for admin page
