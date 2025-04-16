@@ -1,9 +1,8 @@
 import { env } from "../config/env"
 import { getUserByUserName } from "../repositories/user.repository"
-import { InternalServerError } from "../utils/errors"
+import { InternalServerError, UnauthorizedError } from "../utils/errors"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { throwInvalidUsernameOrPasswordError } from "../utils/service"
 
 type LoginUserParameters = {
   username: string
@@ -13,20 +12,17 @@ export const loginUser = async ({
   username,
   password,
 }: LoginUserParameters) => {
-  // - add csrf protection
-  // - add rate limiting for safety
-  // - add validation
-  // - Set Security Headers
+  // TODO: add validation
   const user = await getUserByUserName(username)
 
   if (!user) {
-    return throwInvalidUsernameOrPasswordError()
+    throw new UnauthorizedError({ message: "Invalid user name or password" })
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password)
 
   if (!isPasswordValid) {
-    return throwInvalidUsernameOrPasswordError()
+    throw new UnauthorizedError({ message: "Invalid user name or password" })
   }
 
   const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, {
