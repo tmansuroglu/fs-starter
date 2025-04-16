@@ -1,7 +1,5 @@
-type Message = {
-  message: string
-}
-interface AppErrorOptions extends Message {
+type AppErrorOptions = {
+  message?: string
   statusCode?: number
   isOperational?: boolean
 }
@@ -11,7 +9,7 @@ class AppError extends Error {
   isOperational: boolean
 
   constructor({
-    message,
+    message = undefined,
     statusCode = 500,
     isOperational = true,
   }: AppErrorOptions) {
@@ -24,31 +22,31 @@ class AppError extends Error {
 }
 
 export class NotFoundError extends AppError {
-  constructor({ message = "Resource not found" }: Message) {
+  constructor({ message = "Resource not found" }: AppErrorOptions = {}) {
     super({ message, statusCode: 404 })
   }
 }
 
 export class BadRequestError extends AppError {
-  constructor({ message = "Bad request" }: Message) {
+  constructor({ message = "Bad request" }: AppErrorOptions = {}) {
     super({ message, statusCode: 400 })
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor({ message = "Unauthorized" }: Message) {
+  constructor({ message = "Unauthorized" }: AppErrorOptions = {}) {
     super({ message, statusCode: 401 })
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor({ message = "Forbidden" }) {
+  constructor({ message = "Forbidden" }: AppErrorOptions = {}) {
     super({ message, statusCode: 403 })
   }
 }
 
 export class InternalServerError extends AppError {
-  constructor({ message = "Internal Server Error" }) {
+  constructor({ message = "Internal Server Error" }: AppErrorOptions = {}) {
     super({ message, statusCode: 500, isOperational: false })
   }
 }
