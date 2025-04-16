@@ -118,5 +118,8 @@
   - Make sure user count is limited to 1
   - Make sure api and web endpoints are safe
   - Add route guard middleware for admin page
+  - Redis
+    - Storing session IDs (for login state)
+    - Blacklisting JWT tokens (for logout)
 
 -
