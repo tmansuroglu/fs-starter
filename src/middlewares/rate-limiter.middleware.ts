@@ -18,8 +18,6 @@ const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
     return
   }
 
-  console.log("rate limiter middleware")
-
   rateLimiter
     .consume(req.ip)
     .then(next)
