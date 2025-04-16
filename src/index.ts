@@ -2,7 +2,6 @@ import express from "express"
 import path from "path"
 import pageRouter from "./routes/web/page.routes"
 import { env } from "./config/env"
-import rateLimiterMiddleware from "./middlewares/rate-limiter.middleware"
 import helmet from "helmet"
 import apiRouter from "./routes/api/auth.routes"
 import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware"
@@ -42,7 +41,16 @@ app.use(helmet.noSniff()) // 🛡️ Block MIME type sniffing
 app.use(helmet.hidePoweredBy()) // 🧼 Hides Express signature
 app.use(helmet.referrerPolicy({ policy: "no-referrer" })) // 🕵️ Hide referrer
 app.use("/", htmlCSP, pageRouter)
-app.use("/api", rateLimiterMiddleware, apiRouter)
+// TODO: test this in production
+if (env.NODE_ENV === "production") {
+  const {
+    rateLimiterMiddleware,
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+  } = require("./middlewares/rate-limiter.middleware")
+  app.use("/api", rateLimiterMiddleware, apiRouter)
+} else {
+  app.use("/api", apiRouter)
+}
 app.use(errorHandlerMiddleware)
 
 app.listen(env.PORT, () => {
