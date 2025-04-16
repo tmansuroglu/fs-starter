@@ -26,6 +26,7 @@ const htmlCSP = helmet.contentSecurityPolicy({
 const app = express()
 
 // TODO: add csrf protection
+// TODO: add cors
 
 // TODO: Warning for safety!
 // https://github.com/animir/node-rate-limiter-flexible/wiki/Express-Middleware
