@@ -26,9 +26,8 @@ const app = express()
 
 // TODO: add csrf protection
 // TODO: add cors
-
-// TODO: Warning for safety!
-// https://github.com/animir/node-rate-limiter-flexible/wiki/Express-Middleware
+// TODO: add auth middleware for route guarding
+// TODO: Warning for safety! https://github.com/animir/node-rate-limiter-flexible/wiki/Express-Middleware
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
@@ -41,6 +40,7 @@ app.use(helmet.noSniff()) // 🛡️ Block MIME type sniffing
 app.use(helmet.hidePoweredBy()) // 🧼 Hides Express signature
 app.use(helmet.referrerPolicy({ policy: "no-referrer" })) // 🕵️ Hide referrer
 app.use("/", htmlCSP, pageRouter)
+
 // TODO: test this in production
 if (env.NODE_ENV === "production") {
   const {
@@ -51,6 +51,7 @@ if (env.NODE_ENV === "production") {
 } else {
   app.use("/api", apiRouter)
 }
+
 app.use(errorHandlerMiddleware)
 
 app.listen(env.PORT, () => {
