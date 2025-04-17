@@ -1,0 +1,21 @@
+# Use a lightweight Node image
+FROM node:23-slim
+
+# Install OpenSSL (and clean up afterwards to reduce image size)
+RUN apt-get update && \
+    apt-get install -y openssl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set working directory inside container
+WORKDIR /app
+
+# Install dependencies early for caching
+COPY package*.json ./
+RUN npm install
+
+# Copy everything else (not strictly needed with bind mount, but fine)
+COPY . .
+
+CMD ["npm", "run", "dev"]
+

@@ -1,3 +1,10 @@
+# Environment variable files
+.env.dev
+.env.prod
+
+# Prisma local .env (if any)
+prisma/.env
+
 # Node modules
 node_modules/
 
@@ -17,12 +24,11 @@ pids/
 # Coverage reports
 coverage/
 
-
-# OS-related files
+# OS-specific
 .DS_Store
 Thumbs.db
 
-# IDE-related
+# IDE/project files
 .vscode/
 .idea/
 *.suo
@@ -30,31 +36,20 @@ Thumbs.db
 *.njsproj
 *.sln
 
-# Compiled files
+# Build output
 dist/
 build/
 tmp/
 temp/
 
-# Database artifacts
-*.sqlite
-*.db
-*.dump
+# Prisma local data and generated artifacts
+prisma/dev.db
+prisma/migrations/
+prisma/generated
 
-# Optional: Ignore uploads (if stored locally)
+# Optional uploads
 uploads/
 public/uploads/
 
-# TypeScript
+# TypeScript metadata
 *.tsbuildinfo
-
-# Prisma files
-prisma/dev.db
-prisma/migrations/
-
-# .env files for environment variables
-.env
-prisma/.env
-.env.*.local
-
-prisma/generated

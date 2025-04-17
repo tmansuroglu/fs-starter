@@ -1,6 +1,8 @@
 import dotenv from "dotenv"
 
-dotenv.config()
+const path = process.env.NODE_ENV === "development" ? ".env.dev" : ".env.prod"
+
+dotenv.config({ path })
 
 function getEnv(name: string): string {
   const value = process.env[name]

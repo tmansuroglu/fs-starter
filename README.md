@@ -1,3 +1,20 @@
+# How to run the app in Development mode
+
+- Step 1: Create and configure .env.dev
+  - cp .env.example .env.dev
+  - fill .env.dev
+- If you need docker
+  - Make sure docker is open in the background
+  - npm run dev:docker
+- If you don't need docker
+  - npm run dev
+
+## Useful commands
+
+- docker-compose --env-file .env.dev -f docker-compose.dev.yaml down -v # Stop and remove containers, volumes
+- docker image prune -af # Remove all unused images
+- docker volume prune -f # Clean up unused volumes
+
 ## Architecture Flow
 
 - For Visitors
@@ -121,3 +138,9 @@
   - Redis
     - Storing session IDs (for login state)
     - Blacklisting JWT tokens (for logout)
+  - Translated error messages
+  - NGINX
+  - pgAdmin
+  - container and db healtcheck
+  - db backups
+  - update readme file structure

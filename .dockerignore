@@ -1,0 +1,38 @@
+# Ignore local env files and secrets
+.env.dev
+.env.prod
+
+# Node modules (re-installed inside Docker)
+node_modules
+
+# Build artifacts
+dist
+build
+tmp
+temp
+
+# Logs
+logs
+*.log
+
+# OS/Editor junk
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+
+# Git repo files
+.git
+.gitignore
+
+# Prisma artifacts
+prisma/dev.db
+prisma/migrations
+prisma/generated
+
+# Uploads (if dynamic)
+uploads
+public/uploads
+
+# TS cache
+*.tsbuildinfo
