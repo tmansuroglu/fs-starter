@@ -138,9 +138,9 @@
   - Redis
     - Storing session IDs (for login state)
     - Blacklisting JWT tokens (for logout)
-  - Translated error messages
   - NGINX
   - pgAdmin
-  - container and db healtcheck
+  - container and db health check
   - db backups
   - update readme file structure
+  - test prod docker flow and environment variables
