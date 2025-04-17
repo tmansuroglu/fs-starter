@@ -1,6 +1,7 @@
 import { RequestHandler } from "express"
 import Redis from "ioredis"
 import { RateLimiterRedis, RateLimiterRes } from "rate-limiter-flexible"
+import { TooManyRequestError } from "../utils/errors"
 
 const redisClient = new Redis({ enableOfflineQueue: false })
 
@@ -22,8 +23,7 @@ const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
     .consume(req.ip)
     .then(next)
     .catch((rateLimiterRes: RateLimiterRes) => {
-      res.status(429).json({
-        message: "Too many requests. Try again later.",
+      throw new TooManyRequestError({
         retryAfter: rateLimiterRes.msBeforeNext / 1000 + "s",
       })
     })

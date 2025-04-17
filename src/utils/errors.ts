@@ -2,6 +2,7 @@ type AppErrorOptions = {
   message?: string
   statusCode?: number
   isOperational?: boolean
+  retryAfter?: string
 }
 
 export class AppError extends Error {
@@ -48,5 +49,18 @@ export class ForbiddenError extends AppError {
 export class InternalServerError extends AppError {
   constructor({ message = "Internal Server Error" }: AppErrorOptions = {}) {
     super({ message, statusCode: 500, isOperational: false })
+  }
+}
+
+export class TooManyRequestError extends AppError {
+  constructor({
+    message = "Too many requests. Try again later.",
+    retryAfter,
+  }: AppErrorOptions = {}) {
+    super({
+      message,
+      statusCode: 429,
+      retryAfter,
+    })
   }
 }
