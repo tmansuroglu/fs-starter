@@ -86,7 +86,7 @@
 ### 🎉 Phase 1: Core (COMPLETED)
 
 - **Public GitHub repo**  
-  – ✅ Comprehensive `README.md` with run/build instructions, `.env.example`, visible TODO/Roadmap.
+  – Comprehensive `README.md` with run/build instructions, `.env.example`, visible TODO/Roadmap.
 - **TypeScript + Node.js + Express**  
   – ES‑module setup, `tsconfig.json`, dev/build/npm scripts (`dev`, `build`, `start`, `dev:docker`).
 - **Clean, Layered Architecture**  
