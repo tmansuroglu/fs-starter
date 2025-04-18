@@ -81,37 +81,35 @@
     - schema.prisma
     - generated/
 
-## 🎉 Achievements So Far
-
-1. **Public GitHub repo**  
-   – ✅ Comprehensive `README.md` with run/build instructions, `.env.example`, visible TODO/Roadmap.
-2. **TypeScript + Node.js + Express**  
-   – ES‑module setup, `tsconfig.json`, dev/build/npm scripts (`dev`, `build`, `start`, `dev:docker`).
-3. **Clean, Layered Architecture**  
-   – `/src/routes → controllers → services → repositories → Prisma client`  
-   – Shared **utils** (`asyncHandler`, custom errors), centralized **config** loader.
-4. **Prisma ORM**  
-   – Type‑safe models, migrations, singleton client.
-5. **Hybrid Web + API**  
-   – EJS‑templated pages, plus `/api` JSON endpoints.
-6. **Modular Routing**  
-   – Distinct `web` vs `api` routers; plug‑and‑play controllers.
-7. **Security Foundations**  
-   – Helmet for headers (custom CSP on `/`), global error handler, production‑only rate limiter.
-8. **DevOps‑Ready**  
-   – Docker‑first: dev/prod `Dockerfile`s + Compose files (`docker-compose.dev.yaml`, `docker-compose.prod.yaml`), `dev:docker` script.
-9. **Environment Safety**  
-   – dotenv (`.env.dev`, `.env.prod`, `.env.example`).
-10. **Linting & Formatting**  
-    – ESLint + Prettier, Husky pre‑commit hook (format & lint).
-11. **Static Assets & Lifecycle**  
-    – `express.static` support, well‑defined npm lifecycle scripts.
-
----
-
 ## 🚀 Roadmap
 
-### Phase 1: Docs & Cleanup
+### 🎉 Phase 1: Core (COMPLETED)
+
+- **Public GitHub repo**  
+  – ✅ Comprehensive `README.md` with run/build instructions, `.env.example`, visible TODO/Roadmap.
+- **TypeScript + Node.js + Express**  
+  – ES‑module setup, `tsconfig.json`, dev/build/npm scripts (`dev`, `build`, `start`, `dev:docker`).
+- **Clean, Layered Architecture**  
+  – `/src/routes → controllers → services → repositories → Prisma client`  
+  – Shared **utils** (`asyncHandler`, custom errors), centralized **config** loader.
+- **Prisma ORM**  
+  – Type‑safe models, migrations, singleton client.
+- **Hybrid Web + API**  
+  – EJS‑templated pages, plus `/api` JSON endpoints.
+- **Modular Routing**  
+  – Distinct `web` vs `api` routers; plug‑and‑play controllers.
+- **Security Foundations**  
+  – Helmet for headers (custom CSP on `/`), global error handler, production‑only rate limiter.
+- **DevOps‑Ready**  
+  – Docker‑first: dev/prod `Dockerfile`s + Compose files (`docker-compose.dev.yaml`, `docker-compose.prod.yaml`), `dev:docker` script.
+- **Environment Safety**  
+  – dotenv (`.env.dev`, `.env.prod`, `.env.example`).
+- **Linting & Formatting**  
+  – ESLint + Prettier, Husky pre‑commit hook, commitlint (format & lint).
+- **Static Assets & Lifecycle**  
+  – `express.static` support, well‑defined npm lifecycle scripts.
+
+### Phase 2: Docs & Cleanup
 
 - Sync **README** → code (all existing routes, remove “projects”/“blog” stubs)
 - Orphaned views: implement or delete `projects.ejs`/`blog.ejs`
@@ -121,16 +119,15 @@
 - **DRY shared view data**: add middleware to inject common `res.locals` (user session, CSRF tokens) into all renders
 - **Ensure middleware ordering**: register `helmet()`, `cors()`, etc. before body‑parsers and routes
 
-### Phase 2: Developer DX & Code Quality
+### Phase 3: Developer DX & Code Quality
 
 - **Path Aliases** (`@controllers/*`, `@services/*`, etc.) → refactor deep imports
 - ESLint/Prettier lockdown on `.ts`, `.ejs`, `.json` via Husky
-- Commit‑lint + Husky hook (Conventional Commits)
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
 - **Feature‑based folder structure**: group code by feature/domain instead of flat dirs
 - **Keep controllers thin**: move all business logic into service layer
 
-### Phase 3: Validation, Auth & Error Handling
+### Phase 4: Validation, Auth & Error Handling
 
 - Request schemas (Zod or Joi) for auth, user, future CRUD
 - **Config validation at startup**: use Zod/Joi to validate `process.env` on boot
@@ -146,14 +143,14 @@
   - JWT + bcrypt, SMS confirmation, limit user count to 1
   - Route-guard middleware for admin pages
 
-### Phase 4: Security Hardening
+### Phase 5: Security Hardening
 
 - CSRF (`csurf`) on all web forms; inject tokens in EJS
 - CORS lock‑down to known origins
 - HTTPS‑only enforcement in production
 - Secure cookies/sessions (`secure`, `httpOnly`, `sameSite`)
 
-### Phase 5: Observability & Monitoring
+### Phase 6: Observability & Monitoring
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
@@ -161,7 +158,7 @@
 - **Correlation IDs**: inject unique request IDs for log tracing
 - Sentry integration + alerting (Slack/webhook)
 
-### Phase 6: Testing & CI/CD
+### Phase 7: Testing & CI/CD
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -170,26 +167,26 @@
 - **GitHub Actions**: on PR → lint/build/test/coverage; on merge → build & push Docker images
 - Semantic Release (CHANGELOG, version bump, GitHub Release)
 
-### Phase 7: API Docs & Versioning
+### Phase 8: API Docs & Versioning
 
 - OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
 - Postman collection in repo
 - **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
 
-### Phase 8: Performance & Caching
+### Phase 9: Performance & Caching
 
 - Static‑asset CDN + cache headers
 - Template caching (in‑memory or Redis)
 - DB query optimization & indexing
 - Response compression middleware
 
-### Phase 9: Front‑End Rebuild
+### Phase 10: Front‑End Rebuild
 
 - React/Next.js front‑end consuming your API
 - Netlify/Vercel (or S3/CloudFront) CI/CD
 - Theming, WCAG accessibility, responsive design
 
-### Phase 10: Infra & Deployment
+### Phase 11: Infra & Deployment
 
 - Multi‑stage Docker builds for minimal images
 - **NGINX**: reverse‑proxy configuration & SSL termination
@@ -200,7 +197,7 @@
 - Terraform (DB, cache, LB)
 - Blue/Green or canary deploy strategy
 
-### Phase 11: Optional Extras
+### Phase 12: Optional Extras
 
 - Headless CMS (Strapi/Ghost/Sanity) for blog
 - WebSockets/SSE for real‑time admin notifications
