@@ -1,17 +1,13 @@
-## How to run the app in Development mode
+## How to run the app
 
 <details>
-<summary>Click here to expand</summary>
+<summary>Development</summary>
 
-- Step 1: Create and configure .env.dev
-  - cp .env.example .env.dev
+- cp .env.example .env.dev
   - fill .env.dev
-- If you need docker
-  - Make sure docker is open in the background
-  - npm run dev:docker
-- If you don't need docker
-  - npm run dev
-  </details>
+- Make sure docker is open in the background
+- npm run dev:docker
+</details>
 
 ## Useful commands
 
@@ -145,9 +141,7 @@
 - Sync **README** → code (all existing routes, remove “projects”/“blog” stubs)
 - Orphaned views: implement or delete `projects.ejs`/`blog.ejs`
 - Add ASCII/folder diagram of `/src/{routes,controllers,services,repositories,utils,config,views}`
-- **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
 - **Factor EJS layout partials**: extract shared header/footer into partials
-- **DRY shared view data**: add middleware to inject common `res.locals` (user session, CSRF tokens) into all renders
 - **Ensure middleware ordering**: register `helmet()`, `cors()`, etc. before body‑parsers and routes
 
 <details>
@@ -182,6 +176,7 @@
 <summary>Phase 5: Security Hardening</summary>
 
 - CSRF (`csurf`) on all web forms; inject tokens in EJS
+  - **DRY shared view data**: add middleware to inject common `res.locals` (user session,user info, CSRF tokens) into all renders
 - CORS lock‑down to known origins
 - HTTPS‑only enforcement in production
 - Secure cookies/sessions (`secure`, `httpOnly`, `sameSite`)
@@ -247,7 +242,15 @@
 </details>
 
 <details>
-<summary>Phase 12: Optional Extras</summary>
+<summary>Phase 12: Postponed Tasks</summary>
+
+- **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
+- Add how to run in prod into README.md
+- Add how to deploy into README.md
+</details>
+
+<details>
+<summary>Phase 13: Optional Extras</summary>
 
 - Headless CMS (Strapi/Ghost/Sanity) for blog
 - WebSockets/SSE for real‑time admin notifications
