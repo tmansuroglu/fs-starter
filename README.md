@@ -15,75 +15,97 @@
 - docker image prune -af # Remove all unused images
 - docker volume prune -f # Clean up unused volumes
 
-## Architecture Flow
+## Request Flows
 
-- For WEB
-  - Browser (GET /web-route)
-  - ↓
-  - Route → Controller
-  - ↓
-  - Service → Repository
-  - ↓
-  - PostgreSQL
-  - ↓
-  - Controller returns rendered HTML view
-- For API
-  - Browser (POST /api-endpoint)
-  - ↓
-  - API Route → Controller
-  - ↓
-  - Service → Repository
-  - ↓
-  - PostgreSQL
-  - ↓
-  - Returns JSON response
+<details>
+<summary>Request Flow For Web</summary>
+
+- Browser (GET /web-route)
+- ↓
+- Route → Controller
+- ↓
+- Service → Repository
+- ↓
+- PostgreSQL
+- ↓
+- Controller returns rendered HTML view
+</details>
+
+<details>
+<summary>Request Flow For API</summary>
+
+- Browser (POST /api-endpoint)
+- ↓
+- API Route → Controller
+- ↓
+- Service → Repository
+- ↓
+- PostgreSQL
+- ↓
+- Returns JSON response
+</details>
 
 ## Project Structure
 
-- .husky/
-- prisma/
-- .env
+<details>
+<summary>Click here to expand</summary>
+
 - .gitignore
+- .dockerignore
+- .eslint.config.mjs
 - .prettierrc
 - commitlint.config.js
-- docker-compose.yaml
-- Dockerfile
-- eslint.config.mjs
-- tsconfig.json
-- package-lock.json
+- docker-compose.dev.yaml
+- docker-compose.prod.yaml
+- Dockerfile.dev
+- Dockerfile.prod
+- .env.example
 - package.json
+- package-lock.json
+- tsconfig.json
+- README.md
+- .husky/
+  - pre-commit
+  - commit-msg
+- prisma/
+  - schema.prisma
 - src/
   - index.ts
-  - views/ (HTML pages rendered with a view engine)
-    - home.ejs
-    - projects.ejs
-    - blog.ejs
-  - public/ (Static assets like CSS, images, TS)
-  - routes/
-    - api/ (JSON endpoints)
-      - project.routes.ts
-    - web/ (HTML-rendered routes)
-      - page.routes.ts
+  - config/
+    - env.ts
+    - db.ts
   - controllers/
     - api/
-      - project.controller.ts
+      - auth.controller.ts
     - web/
       - page.controller.ts
-  - services/
-    - project.service.ts
-  - repositories/
-    - project.repository.ts
+  - public/
+    - css/
+      - login.css
+      - reset.css
   - middlewares/
     - auth.middleware.ts
-  - config/
-    - db.ts
-  - prisma/
-    - schema.prisma
-    - generated/
+    - error-handler.middleware.ts
+    - rate-limiter.middleware.ts
+  - repositories/
+    - user.repository.ts
+  - routes/
+    - api/
+      - auth.routes.ts
+    - web/
+      - page.routes.ts
+  - services/
+    - auth.services.ts
+  - utils/
+    - async-handler.ts
+    - errors.ts
+  - views/ - admin.ejs - home.ejs - login.ejs
+  </details>
 
 ## 🚀 Roadmap
 
-### 🎉 Phase 1: Core (COMPLETED)
+<details>
+<summary>Phase 1: Core (COMPLETED)</summary>
 
 - **Public GitHub repo**  
   – Comprehensive `README.md` with run/build instructions, `.env.example`, visible TODO/Roadmap.
@@ -107,9 +129,10 @@
 - **Linting & Formatting**  
   – ESLint + Prettier, Husky pre‑commit hook, commitlint (format & lint).
 - **Static Assets & Lifecycle**  
-  – `express.static` support, well‑defined npm lifecycle scripts.
+ – `express.static` support, well‑defined npm lifecycle scripts.
+</details>
 
-### Phase 2: Docs & Cleanup
+### Phase 2: Docs & Cleanup (IN PROGRESS)
 
 - Sync **README** → code (all existing routes, remove “projects”/“blog” stubs)
 - Orphaned views: implement or delete `projects.ejs`/`blog.ejs`
@@ -119,15 +142,18 @@
 - **DRY shared view data**: add middleware to inject common `res.locals` (user session, CSRF tokens) into all renders
 - **Ensure middleware ordering**: register `helmet()`, `cors()`, etc. before body‑parsers and routes
 
-### Phase 3: Developer DX & Code Quality
+<details>
+<summary>Phase 3: Developer DX & Code Quality</summary>
 
 - **Path Aliases** (`@controllers/*`, `@services/*`, etc.) → refactor deep imports
 - ESLint/Prettier lockdown on `.ts`, `.ejs`, `.json` via Husky
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
 - **Feature‑based folder structure**: group code by feature/domain instead of flat dirs
 - **Keep controllers thin**: move all business logic into service layer
+</details>
 
-### Phase 4: Validation, Auth & Error Handling
+<details>
+<summary>Phase 4: Validation, Auth & Error Handling</summary>
 
 - Request schemas (Zod or Joi) for auth, user, future CRUD
 - **Config validation at startup**: use Zod/Joi to validate `process.env` on boot
@@ -142,23 +168,29 @@
   - FE + BE validation; Prisma schema for user/login
   - JWT + bcrypt, SMS confirmation, limit user count to 1
   - Route-guard middleware for admin pages
+  </details>
 
-### Phase 5: Security Hardening
+<details>
+<summary>Phase 5: Security Hardening</summary>
 
 - CSRF (`csurf`) on all web forms; inject tokens in EJS
 - CORS lock‑down to known origins
 - HTTPS‑only enforcement in production
 - Secure cookies/sessions (`secure`, `httpOnly`, `sameSite`)
+</details>
 
-### Phase 6: Observability & Monitoring
+<details>
+<summary>Phase 6: Observability & Monitoring</summary>
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
 - `/metrics` endpoint for Prometheus
 - **Correlation IDs**: inject unique request IDs for log tracing
 - Sentry integration + alerting (Slack/webhook)
+</details>
 
-### Phase 7: Testing & CI/CD
+<details>
+<summary>Phase 7: Testing & CI/CD</summary>
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -166,27 +198,35 @@
 - **Split App vs. Server**: extract `app.ts` (Express app) and `server.ts` (boot) for testability
 - **GitHub Actions**: on PR → lint/build/test/coverage; on merge → build & push Docker images
 - Semantic Release (CHANGELOG, version bump, GitHub Release)
+</details>
 
-### Phase 8: API Docs & Versioning
+<details>
+<summary>Phase 8: API Docs & Versioning</summary>
 
 - OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
 - Postman collection in repo
 - **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
+</details>
 
-### Phase 9: Performance & Caching
+<details>
+<summary>Phase 9: Performance & Caching</summary>
 
 - Static‑asset CDN + cache headers
 - Template caching (in‑memory or Redis)
 - DB query optimization & indexing
 - Response compression middleware
+</details>
 
-### Phase 10: Front‑End Rebuild
+<details>
+<summary>Phase 10: Front‑End Rebuild</summary>
 
 - React/Next.js front‑end consuming your API
 - Netlify/Vercel (or S3/CloudFront) CI/CD
 - Theming, WCAG accessibility, responsive design
+</details>
 
-### Phase 11: Infra & Deployment
+<details>
+<summary>Phase 11: Infra & Deployment</summary>
 
 - Multi‑stage Docker builds for minimal images
 - **NGINX**: reverse‑proxy configuration & SSL termination
@@ -196,10 +236,13 @@
 - Kubernetes + Helm charts (Deployment, Service, Ingress)
 - Terraform (DB, cache, LB)
 - Blue/Green or canary deploy strategy
+</details>
 
-### Phase 12: Optional Extras
+<details>
+<summary>Phase 12: Optional Extras</summary>
 
 - Headless CMS (Strapi/Ghost/Sanity) for blog
 - WebSockets/SSE for real‑time admin notifications
 - GraphQL gateway atop REST
 - **Feature flags**: toggle new features via ENV or flags service
+</details>
