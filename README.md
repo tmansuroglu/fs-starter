@@ -1,4 +1,7 @@
-# How to run the app in Development mode
+## How to run the app in Development mode
+
+<details>
+<summary>Click here to expand</summary>
 
 - Step 1: Create and configure .env.dev
   - cp .env.example .env.dev
@@ -8,12 +11,17 @@
   - npm run dev:docker
 - If you don't need docker
   - npm run dev
+  </details>
 
 ## Useful commands
+
+<details>
+<summary>Click here to expand</summary>
 
 - docker-compose --env-file .env.dev -f docker-compose.dev.yaml down -v # Stop and remove containers, volumes
 - docker image prune -af # Remove all unused images
 - docker volume prune -f # Clean up unused volumes
+</details>
 
 ## Request Flows
 
