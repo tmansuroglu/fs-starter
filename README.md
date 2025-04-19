@@ -103,8 +103,14 @@
   - utils/
     - async-handler.ts
     - errors.ts
-  - views/ - admin.ejs - home.ejs - login.ejs
-  </details>
+  - views/
+    - admin.ejs
+    - home.ejs
+    - login.ejs
+    - partials/
+      - footer.ejs
+      - header.ejs
+      </details>
 
 ## 🚀 Roadmap
 
