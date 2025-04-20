@@ -13,7 +13,7 @@ const rateLimiter = new RateLimiterRedis({
   useRedisPackage: true,
 })
 
-const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
+export const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
   if (!req.ip) {
     res.status(400).json({ message: "Invalid request: IP address not found." })
     return
@@ -28,5 +28,3 @@ const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
       })
     })
 }
-
-export default rateLimiterMiddleware

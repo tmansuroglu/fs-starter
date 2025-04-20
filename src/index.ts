@@ -40,17 +40,22 @@ app.use("/", htmlCSP, pageRouter)
 
 // TODO: test this in production
 if (env.NODE_ENV === "production") {
-  const {
-    rateLimiterMiddleware,
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-  } = require("./middlewares/rate-limiter.middleware")
-  app.use("/api", rateLimiterMiddleware, apiRouter)
+  import("./middlewares/rate-limiter.middleware")
+    .then(({ rateLimiterMiddleware }) => {
+      app.use("/api", rateLimiterMiddleware, apiRouter)
+
+      app.use(errorHandlerMiddleware)
+
+      app.listen(env.PORT)
+    })
+    .catch((err) => {
+      console.error("Failed to load rate limiter:", err)
+      process.exit(1)
+    })
 } else {
   app.use("/api", apiRouter)
+  app.use(errorHandlerMiddleware)
+  app.listen(env.PORT, () => {
+    console.log(`Server is running at http://localhost:${env.PORT}`)
+  })
 }
-
-app.use(errorHandlerMiddleware)
-
-app.listen(env.PORT, () => {
-  console.log(`Server is running at http://localhost:${env.PORT}`)
-})
