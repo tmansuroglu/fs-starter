@@ -44,7 +44,6 @@ temp/
 
 # Prisma local data and generated artifacts
 prisma/dev.db
-prisma/migrations/
 prisma/generated
 
 # Optional uploads
