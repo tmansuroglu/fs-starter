@@ -10,6 +10,12 @@ services:
       - "${DB_PORT}:${DB_PORT}" # Expose PostgreSQL to localhost for tools
     volumes:
       - pgdata:/var/lib/postgresql/data # Persist Postgres data locally
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   # Node.js app container for development
   app:
@@ -18,13 +24,21 @@ services:
       dockerfile: Dockerfile.dev
     container_name: app-dev # Name the dev container
     depends_on:
-      - db # Wait for db to be started
+      db: # Wait for db to be started
+        condition: service_healthy
     ports:
       - "${PORT}:${PORT}" # Expose app on localhost:3000
-    volumes:
-      - .:/app # 🔁 Bind mount for live reloading (ts-node-dev)
-      # // TODO: This might be needed for prod (dotenv thing)
+    # // TODO: This might be needed for prod (dotenv thing)
     command: sh -c "npx dotenv -e .env.dev -- prisma migrate dev --name init && npx dotenv -e .env.dev -- prisma generate && npm run dev" # 🧠 Start dev server with hot reload
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     environment:
       NODE_ENV: development # Ensure app runs in development mode
     env_file:
