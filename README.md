@@ -142,22 +142,25 @@
  – `express.static` support, well‑defined npm lifecycle scripts.
 </details>
 
-### Phase 2: Docs & Cleanup (IN PROGRESS)
+<details>
+<summary>Phase 2: Docs & Cleanup (COMPLETED)</summary>
 
 - Sync **README** → code (all existing routes, remove “projects”/“blog” stubs)
 - Orphaned views: implement or delete `projects.ejs`/`blog.ejs`
 - Add ASCII/folder diagram of `/src/{routes,controllers,services,repositories,utils,config,views}`
 - **Factor EJS layout partials**: extract shared header/footer into partials
 - **Ensure middleware ordering**: register `helmet()`, `cors()`, etc. before body‑parsers and routes
+</details>
 
 <details>
-<summary>Phase 3: Developer DX & Code Quality</summary>
+<summary>Phase 3: Developer DX & Code Quality (IN PROGRESS)</summary>
 
 - **Path Aliases** (`@controllers/*`, `@services/*`, etc.) → refactor deep imports
 - ESLint/Prettier lockdown on `.ts`, `.ejs`, `.json` via Husky
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
 - **Feature‑based folder structure**: group code by feature/domain instead of flat dirs
 - **Keep controllers thin**: move all business logic into service layer
+- **Docker Live Reload --watch** Docker doesn't live reload. Fix it.
 </details>
 
 <details>
