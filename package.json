@@ -4,13 +4,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx dotenv -e .env.dev -- ts-node-dev --poll --respawn --watch src --transpile-only src/index.ts",
+    "migrate": "npx dotenv -e .env.dev -- prisma migrate dev --name init",
+    "generate": "npx dotenv -e .env.dev -- prisma generate",
+    "dev": "npx dotenv -e .env.dev -- ts-node-dev --respawn --transpile-only --poll -r tsconfig-paths/register --watch src src/index.ts",
     "dev:docker": "docker compose --env-file .env.dev -f docker-compose.dev.yaml up --watch",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint --ext .ts src",
     "format": "prettier --write src/",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:reset": "docker-compose --env-file .env.dev -f docker-compose.dev.yaml down -v  && docker image prune -af && docker volume prune -f"
   },
   "author": "",
   "license": "ISC",
