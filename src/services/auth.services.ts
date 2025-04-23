@@ -1,8 +1,8 @@
-import { env } from "../config/env"
-import { getUserByUserName } from "../repositories/user.repository"
-import { InternalServerError, UnauthorizedError } from "../utils/errors"
+import { env } from "@config/env"
+import { InternalServerError, UnauthorizedError } from "@utils/errors"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { getUserByUserName } from "src/repositories/user.repository"
 
 type LoginUserParameters = {
   username: string

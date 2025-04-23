@@ -1,7 +1,7 @@
+import { TooManyRequestError } from "@utils/errors"
 import { RequestHandler } from "express"
 import Redis from "ioredis"
 import { RateLimiterRedis, RateLimiterRes } from "rate-limiter-flexible"
-import { TooManyRequestError } from "../utils/errors"
 
 const redisClient = new Redis({ enableOfflineQueue: false })
 

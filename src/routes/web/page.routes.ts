@@ -1,9 +1,9 @@
-import express from "express"
 import {
   renderAdminPage,
   renderHomePage,
   renderLoginPage,
-} from "../../controllers/web/page.controllers"
+} from "@webControllers/page.controllers"
+import express from "express"
 
 const pageRouter = express.Router()
 

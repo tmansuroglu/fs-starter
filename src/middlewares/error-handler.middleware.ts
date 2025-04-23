@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { AppError } from "@utils/errors"
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express"
-import { AppError } from "../utils/errors"
 
 export const errorHandlerMiddleware: ErrorRequestHandler = (
   err: Error,

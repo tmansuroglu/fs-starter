@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../prisma/generated"
+import { PrismaClient } from "@prisma/client"
 import { env } from "./env"
 
 // ✅ Define a custom type for the global object

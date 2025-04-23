@@ -1,10 +1,10 @@
 import express from "express"
 import path from "path"
-import pageRouter from "./routes/web/page.routes"
-import { env } from "./config/env"
 import helmet from "helmet"
-import apiRouter from "./routes/api/auth.routes"
-import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware"
+import { env } from "@config/env"
+import { errorHandlerMiddleware } from "@middlewares/error-handler.middleware"
+import pageRouter from "@webRoutes/page.routes"
+import apiRouter from "@apiRoutes/auth.routes"
 
 const htmlCSP = helmet.contentSecurityPolicy({
   directives: {
