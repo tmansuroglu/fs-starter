@@ -39,7 +39,8 @@
       "@middlewares/*": ["src/middlewares/*"],
       "@apiRoutes/*": ["src/routes/api/*"],
       "@webRoutes/*": ["src/routes/web/*"],
-      "@views/*": ["src/views/*"]
+      "@views/*": ["src/views/*"],
+      "@prisma/client": ["prisma/generated/index.js"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
