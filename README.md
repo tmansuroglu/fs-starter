@@ -160,7 +160,6 @@
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
 - **Feature‑based folder structure**: group code by feature/domain instead of flat dirs
 - **Keep controllers thin**: move all business logic into service layer
-- **Docker Live Reload --watch** Docker doesn't live reload. Fix it.
 </details>
 
 <details>
@@ -256,6 +255,7 @@
 - **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
 - Add how to run in prod into README.md
 - Add how to deploy into README.md
+- **Docker Live Reload --watch** Docker doesn't live reload FE. Fix it.
 </details>
 
 <details>
