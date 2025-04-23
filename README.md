@@ -153,17 +153,15 @@
 </details>
 
 <details>
-<summary>Phase 3: Developer DX & Code Quality (IN PROGRESS)</summary>
+<summary>Phase 3: Developer DX & Code Quality (COMPLETED)</summary>
 
 - **Path Aliases** (`@controllers/*`, `@services/*`, etc.) → refactor deep imports
 - ESLint/Prettier lockdown on `.ts`, `.ejs`, `.json` via Husky
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
-- **Feature‑based folder structure**: group code by feature/domain instead of flat dirs
-- **Keep controllers thin**: move all business logic into service layer
 </details>
 
-<details>
-<summary>Phase 4: Validation, Auth & Error Handling</summary>
+<details open>
+<summary>Phase 4: Validation, Auth & Error Handling(IN PROGRESS)</summary>
 
 - Request schemas (Zod or Joi) for auth, user, future CRUD
 - **Config validation at startup**: use Zod/Joi to validate `process.env` on boot
@@ -173,11 +171,8 @@
 - **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
 - **Prisma type reuse**: leverage generated `Prisma.*` types instead of custom interfaces
 - **Prisma connection handling**: ensure singleton client disconnects gracefully on shutdown
-- 404 & 5xx EJS error pages
-- **Login flow**
-  - FE + BE validation; Prisma schema for user/login
-  - JWT + bcrypt, SMS confirmation, limit user count to 1
-  - Route-guard middleware for admin pages
+- Route guard for API endpoints
+- API endpoint validation
   </details>
 
 <details>
@@ -234,7 +229,12 @@
 - React/Next.js front‑end consuming your API
 - Netlify/Vercel (or S3/CloudFront) CI/CD
 - Theming, WCAG accessibility, responsive design
-</details>
+- 404 & 5xx EJS error pages
+- **Login flow**
+  - FE validation
+  - JWT + bcrypt, SMS confirmation, limit user count to 1
+  - Route-guard middleware for admin pages
+  </details>
 
 <details>
 <summary>Phase 11: Infra & Deployment</summary>
