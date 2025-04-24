@@ -1,18 +1,11 @@
 import { env } from "@config/env"
+import { LoginPayload } from "@schemas/auth.schema"
 import { InternalServerError, UnauthorizedError } from "@utils/errors"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { getUserByUserName } from "src/repositories/user.repository"
 
-type LoginUserParameters = {
-  username: string
-  password: string
-}
-export const loginUser = async ({
-  username,
-  password,
-}: LoginUserParameters) => {
-  // TODO: add validation
+export const loginUser = async ({ username, password }: LoginPayload) => {
   const user = await getUserByUserName(username)
 
   if (!user) {

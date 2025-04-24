@@ -40,7 +40,8 @@
       "@apiRoutes/*": ["src/routes/api/*"],
       "@webRoutes/*": ["src/routes/web/*"],
       "@views/*": ["src/views/*"],
-      "@generated-prisma": ["prisma/generated"]
+      "@generated-prisma": ["prisma/generated"],
+      "@schemas/*": ["src/schemas/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

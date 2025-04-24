@@ -12,6 +12,7 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       message: err.message,
+      errors: err.errors,
     }) as unknown as void
   }
 

@@ -1,8 +1,12 @@
+import { ValidatedRequest } from "@middlewares/validation.middleware"
+import { loginSchema } from "@schemas/auth.schema"
 import { loginUser } from "@services/auth.services"
-import { Request, Response } from "express"
+import { Response } from "express"
 
-export const loginController = async (req: Request, res: Response) => {
-  const { username, password } = req.body // TODO: needs to be typed
+type LoginRequest = ValidatedRequest<typeof loginSchema>
+
+export const loginController = async (req: LoginRequest, res: Response) => {
+  const { username, password } = req.body
 
   const { token } = await loginUser({ username, password })
 
