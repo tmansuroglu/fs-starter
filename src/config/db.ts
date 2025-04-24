@@ -1,5 +1,5 @@
 import { PrismaClient } from "@generated-prisma"
-import { env } from "./env"
+import { env, NodeEnvEnum } from "./env"
 
 // ✅ Define a custom type for the global object
 type GlobalPrisma = typeof globalThis & {
@@ -12,7 +12,7 @@ const globalForPrisma = globalThis as GlobalPrisma
 // ✅ Explicitly type `db` so TypeScript knows what it is
 const db: PrismaClient = globalForPrisma.prisma ?? new PrismaClient()
 
-if (env.NODE_ENV !== "production") {
+if (env.nodeEnv !== NodeEnvEnum.Production) {
   globalForPrisma.prisma = db
 }
 

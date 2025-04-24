@@ -1,7 +1,7 @@
 import express from "express"
 import path from "path"
 import helmet from "helmet"
-import { env } from "@config/env"
+import { env, NodeEnvEnum } from "@config/env"
 import { errorHandlerMiddleware } from "@middlewares/error-handler.middleware"
 import pageRouter from "@webRoutes/page.routes"
 import apiRouter from "@apiRoutes/auth.routes"
@@ -39,14 +39,14 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }))
 app.use("/", htmlCSP, pageRouter)
 
 // TODO: test this in production
-if (env.NODE_ENV === "production") {
+if (env.nodeEnv === NodeEnvEnum.Production) {
   import("./middlewares/rate-limiter.middleware")
     .then(({ rateLimiterMiddleware }) => {
       app.use("/api", rateLimiterMiddleware, apiRouter)
 
       app.use(errorHandlerMiddleware)
 
-      app.listen(env.PORT)
+      app.listen(env.port)
     })
     .catch((err) => {
       console.error("Failed to load rate limiter:", err)
@@ -55,7 +55,7 @@ if (env.NODE_ENV === "production") {
 } else {
   app.use("/api", apiRouter)
   app.use(errorHandlerMiddleware)
-  app.listen(env.PORT, () => {
-    console.log(`Server is running at http://localhost:${env.PORT}`)
+  app.listen(env.port, () => {
+    console.log(`Server is running at http://localhost:${env.port}`)
   })
 }
