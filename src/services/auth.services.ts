@@ -18,7 +18,7 @@ export const loginUser = async ({ username, password }: LoginPayload) => {
     throw new UnauthorizedError({ message: "Invalid user name or password" })
   }
 
-  const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, {
+  const token = jwt.sign({ userId: user.id }, env.jwtSecret, {
     expiresIn: "1h",
   })
 
