@@ -49,6 +49,106 @@
 - Returns JSON response
 </details>
 
+## Architecture
+
+<details>
+<summary>Click here to expand</summary>
+
+This project follows a clean, layered design. Each layer has **allowed** activities and clear **limits** to keep code maintainable and decoupled.
+
+---
+
+### 1. Framework / Driver
+
+- **Allowed**
+  - ✅ Creating and configuring the Express app (`src/index.ts`)
+  - ✅ Registering global middleware (CORS, body-parser, etc.)
+  - ✅ Mounting top-level routes (`src/routes/*.ts`)
+- **Limits**
+  - ❌ No business logic
+  - ❌ No request parsing/validation beyond global parsers
+  - ❌ No direct data access
+
+---
+
+### 2. Interface-Adapter
+
+#### A) Validation Middleware (`src/middlewares/validation.middleware.ts`)
+
+- **Allowed**
+  - ✅ Parsing, coercing and stripping HTTP payloads via Zod schemas
+  - ✅ Rejecting invalid requests with uniform 4xx responses
+  - ✅ Attaching cleaned data to `req` for downstream handlers
+- **Limits**
+  - ❌ No domain/business rules
+  - ❌ No database or external API calls
+
+#### B) Controllers (`src/controllers/*.ts`)
+
+- **Allowed**
+  - ✅ Receiving a _validated_ `req` (typed by Zod)
+  - ✅ Calling **services** with plain payloads
+  - ✅ Formatting and sending HTTP responses (status codes, JSON)
+  - ✅ Delegating errors to a global error handler via `next(err)`
+- **Limits**
+  - ❌ No low-level validation or parsing
+  - ❌ No direct repository / ORM usage
+  - ❌ No Zod schema definitions
+
+---
+
+### 3. Application-Logic (Services) (`src/services/*.ts`)
+
+- **Allowed**
+  - ✅ Implementing core use-cases (e.g. `loginUser`, `createOrder`)
+  - ✅ Enforcing business invariants and orchestration of domain rules
+  - ✅ Calling repositories to fetch or persist data
+  - ✅ Throwing domain-level errors (e.g. `UnauthorizedError`)
+- **Limits**
+  - ❌ No Express `Request`/`Response` or middleware concerns
+  - ❌ No raw HTTP parsing or Zod validation
+  - ❌ No framework-specific code
+
+---
+
+### 4. Domain / Model (Schemas & Types) (`src/schemas/*.schema.ts`)
+
+- **Allowed**
+  - ✅ Defining Zod schemas for inputs and entities (e.g. `LoginPayload`)
+  - ✅ Exporting plain TypeScript types via `z.infer<>`
+  - ✅ Shared domain constants or enums
+- **Limits**
+  - ❌ No Express or HTTP imports
+  - ❌ No service/business logic
+  - ❌ No data-access code
+
+---
+
+### 5. Infrastructure (Repositories & Adapters) (`src/repositories/*.ts`)
+
+- **Allowed**
+  - ✅ Performing data access (database queries, ORM calls)
+  - ✅ Calling external APIs or cache layers
+  - ✅ Mapping raw data into domain entities
+- **Limits**
+  - ❌ No business rules or orchestration
+  - ❌ No HTTP handling or validation
+
+---
+
+#### Why this matters
+
+- 🔄 **One-way dependencies**:  
+  Framework → Interface-Adapter → Application-Logic → Domain → Infrastructure
+- ✅ **Separation of concerns**:  
+  Validation, business rules, data access and HTTP wiring each live in their own layer
+- ⚙️ **Testability**:  
+  Services test with pure types, controllers test with validated requests, infrastructure tests with stubs
+- 🔄 **Reusability**:  
+  Domain schemas & services can be reused in CLI tools, GraphQL APIs, or other adapters
+
+</details>
+
 ## Project Structure
 
 <details>
