@@ -52,9 +52,13 @@ export function validate<Schema extends ZodSchema<any>>(
     if (!result.success) {
       const errors = result.error.issues.map((issue) => issue.message)
 
-      throw new BadRequestError({
-        errors,
-      })
+      throw new BadRequestError(
+        errors.length > 1
+          ? {
+              errors,
+            }
+          : { message: errors[0] }
+      )
     }
 
     // overwrite req.params/query/body with Zod’s cleaned & transformed data

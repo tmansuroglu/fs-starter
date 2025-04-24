@@ -9,12 +9,12 @@ type AppErrorOptions = {
 export class AppError extends Error {
   statusCode: number
   isOperational: boolean
-  errors: string[]
+  errors?: string[]
   retryAfter?: string
 
   constructor({
     message = "An error occurred",
-    errors = [],
+    errors,
     statusCode = 500,
     isOperational = true,
     retryAfter,
