@@ -49,7 +49,7 @@
 - Returns JSON response
 </details>
 
-## Architecture
+## Architecture
 
 <details>
 <summary>Click here to expand</summary>
