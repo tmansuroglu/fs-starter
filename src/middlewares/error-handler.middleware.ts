@@ -1,18 +1,25 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { AppError } from "@utils/errors"
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express"
+import { ErrorRequestHandler } from "express"
 
 export const errorHandlerMiddleware: ErrorRequestHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
+  err,
+  req,
+  res,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  next: NextFunction
+  next
 ) => {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       message: err.message,
       errors: err.errors,
+    }) as unknown as void
+  }
+
+  // TODO: should also log out
+  if (err.code === "EBADCSRFTOKEN") {
+    return res.status(403).render("csrf-error", {
+      message: "Session expired. Please refresh and try again.",
     }) as unknown as void
   }
 

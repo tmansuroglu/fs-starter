@@ -283,6 +283,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - Different helmets for API and WEB
 - Route guard for API endpoints
 - Route guard for WEB pages
+- Is redis setup safe for production?
 </details>
 
 <details>

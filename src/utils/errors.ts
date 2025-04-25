@@ -80,3 +80,12 @@ export class TooManyRequestError extends AppError {
     })
   }
 }
+
+export class InvalidIpError extends AppError {
+  constructor({ message = "Invalid IP" }: AppErrorOptions = {}) {
+    super({
+      message,
+      statusCode: 400,
+    })
+  }
+}

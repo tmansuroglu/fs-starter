@@ -17,6 +17,14 @@ services:
       retries: 5
       start_period: 10s
 
+  redis:
+    image: redis:7
+    container_name: local-redis
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis-data:/data
+
   # Node.js app container for development
   app:
     build:
@@ -41,8 +49,11 @@ services:
           path: package.json
     environment:
       NODE_ENV: development # Ensure app runs in development mode
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
     env_file:
       - .env.dev # 🔐 Secure secrets file (do NOT commit)
 
 volumes:
   pgdata:
+  redis-data:

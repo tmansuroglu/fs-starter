@@ -1,4 +1,3 @@
-// src/index.ts
 import express, { Request, Response } from "express"
 import path from "path"
 import http from "http"
@@ -9,6 +8,13 @@ import pageRouter from "@webRoutes/page.routes"
 import apiRouter from "@apiRoutes/auth.routes"
 import { errorHandlerMiddleware } from "@middlewares/error-handler.middleware"
 import { registerShutdownHooks } from "@utils/shutdown"
+import cookieParser from "cookie-parser"
+import session from "express-session"
+import csurf from "csurf"
+import { injectViewLocals } from "@middlewares/view-locals.middleware"
+import { redisClient } from "@utils/redis-client"
+import { RedisStore } from "connect-redis"
+import { rateLimiterMiddleware } from "@middlewares/rate-limiter.middleware"
 
 // eslint-disable-next-line prefer-const
 let server: http.Server
@@ -20,8 +26,45 @@ app.set("views", path.join(__dirname, "views"))
 
 registerShutdownHooks(() => server)
 
+app.use(cookieParser(process.env.SESSION_SECRET))
+
+const sessionOptions: session.SessionOptions = {
+  secret: env.sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: env.nodeEnv === NodeEnvEnum.Production,
+  },
+  store: new RedisStore({ client: redisClient }),
+}
+
+app.use(session(sessionOptions))
+
+// ——————— API router ———————
+const api = express.Router()
+
+// parse JSON and apply only API headers
+api.use(express.json({ limit: "10kb" }), apiHelmet)
+api.use(express.urlencoded({ extended: true, limit: "10kb" }))
+
+if (env.nodeEnv === NodeEnvEnum.Production) {
+  api.use(rateLimiterMiddleware)
+}
+
+// your JSON endpoints
+api.use(apiRouter)
+
+// mount under /api
+app.use("/api", api)
+
 // ——————— Web (HTML) router ———————
 const web = express.Router()
+
+web.use(csurf({ cookie: false }))
+
+web.use(injectViewLocals)
 
 // apply only to HTML routes & assets
 web.use(htmlHelmet, permissionsPolicyMiddleware)
@@ -37,27 +80,6 @@ web.use(pageRouter)
 
 // mount at root
 app.use("/", web)
-
-// ——————— API (JSON) router ———————
-const api = express.Router()
-
-// parse JSON and apply only API headers
-api.use(express.json({ limit: "10kb" }), apiHelmet)
-
-// rate limit *only* in production
-if (env.nodeEnv === NodeEnvEnum.Production) {
-  const {
-    rateLimiterMiddleware,
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-  } = require("@middlewares/rate-limiter.middleware")
-  api.use(rateLimiterMiddleware)
-}
-
-// your JSON endpoints
-api.use(apiRouter)
-
-// mount under /api
-app.use("/api", api)
 
 // ——————— 404 catch-all ———————
 app.use((req: Request, res: Response) => {

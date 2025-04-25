@@ -23,7 +23,18 @@ const EnvSchema = z
         invalid_type_error: "DATABASE_URL must be a valid URL",
       })
       .url({ message: "DATABASE_URL must be a well-formed URL" }),
-
+    REDIS_HOST: z.string({
+      required_error: "REDIS_HOST is required",
+      invalid_type_error: "REDIS_HOST must be a valid URL",
+    }),
+    REDIS_PORT: z.coerce
+      .number({
+        invalid_type_error: "REDIS_PORT must be a number",
+        required_error: "REDIS_PORT is required",
+      })
+      .int("REDIS_PORT must be an integer")
+      .min(1, { message: "REDIS_PORT must be ≥ 1" })
+      .max(65535, { message: "REDIS_PORT must be ≤ 65535" }),
     DB_PORT: z.coerce
       .number({
         invalid_type_error: "DB_PORT must be a number",
@@ -78,6 +89,8 @@ export type EnvConfig = {
   postgresPassword: string
   postgresDb: string
   sessionSecret: string
+  redisHost: string
+  redisPort: number
 }
 
 export const env: EnvConfig = {
@@ -90,4 +103,6 @@ export const env: EnvConfig = {
   postgresPassword: parsedEnv.POSTGRES_PASSWORD,
   postgresDb: parsedEnv.POSTGRES_DB,
   sessionSecret: parsedEnv.SESSION_SECRET,
+  redisHost: parsedEnv.REDIS_HOST,
+  redisPort: parsedEnv.REDIS_PORT,
 }

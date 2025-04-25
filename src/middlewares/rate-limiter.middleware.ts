@@ -1,9 +1,7 @@
-import { TooManyRequestError } from "@utils/errors"
+import { InvalidIpError, TooManyRequestError } from "@utils/errors"
+import { redisClient } from "@utils/redis-client"
 import { RequestHandler } from "express"
-import Redis from "ioredis"
 import { RateLimiterRedis, RateLimiterRes } from "rate-limiter-flexible"
-
-const redisClient = new Redis({ enableOfflineQueue: false })
 
 const rateLimiter = new RateLimiterRedis({
   storeClient: redisClient,
@@ -15,8 +13,7 @@ const rateLimiter = new RateLimiterRedis({
 
 export const rateLimiterMiddleware: RequestHandler = (req, res, next) => {
   if (!req.ip) {
-    res.status(400).json({ message: "Invalid request: IP address not found." })
-    return
+    throw new InvalidIpError()
   }
 
   rateLimiter
