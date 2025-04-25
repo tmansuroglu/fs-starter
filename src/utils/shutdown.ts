@@ -1,6 +1,6 @@
 import http from "http"
 import { db } from "@config/db"
-import { redisClient } from "./redis-client"
+import { redisClient } from "../config/redis-client"
 
 export function registerShutdownHooks(
   getServer: () => http.Server | undefined

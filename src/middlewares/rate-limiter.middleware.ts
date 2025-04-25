@@ -1,5 +1,5 @@
 import { InvalidIpError, TooManyRequestError } from "@utils/errors"
-import { redisClient } from "@utils/redis-client"
+import { redisClient } from "@config/redis-client"
 import { RequestHandler } from "express"
 import { RateLimiterRedis, RateLimiterRes } from "rate-limiter-flexible"
 

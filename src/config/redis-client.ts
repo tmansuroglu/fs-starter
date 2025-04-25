@@ -2,7 +2,6 @@ import Redis from "ioredis"
 import { env } from "@config/env"
 
 // TODO: test this is prod
-// TODO: should i move this to config?
 export const redisClient = new Redis({
   host: env.redisHost,
   port: env.redisPort,
@@ -10,7 +9,6 @@ export const redisClient = new Redis({
   password: env.redisPassword,
   maxRetriesPerRequest: null,
   reconnectOnError: (err) => {
-    // only reconnect on certain errors
     return err.message.includes("READONLY")
   },
   connectTimeout: 10_000,
