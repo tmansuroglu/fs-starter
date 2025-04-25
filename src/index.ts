@@ -14,11 +14,14 @@ import { injectViewLocals } from "@middlewares/view-locals.middleware"
 import { rateLimiterMiddleware } from "@middlewares/rate-limiter.middleware"
 import { sessionMiddleware } from "@middlewares/session.middleware"
 import { corsMiddleware } from "@config/cors"
+import { httpsRedirectMiddleware } from "@middlewares/https-redirect.middleware"
 
 // eslint-disable-next-line prefer-const
 let server: http.Server
 
 const app = express()
+
+app.use(httpsRedirectMiddleware)
 
 app.use(corsMiddleware)
 
