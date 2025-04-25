@@ -239,7 +239,9 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - **Linting & Formatting**  
   – ESLint + Prettier, Husky pre‑commit hook, commitlint (format & lint).
 - **Static Assets & Lifecycle**  
- – `express.static` support, well‑defined npm lifecycle scripts.
+  – `express.static` support, well‑defined npm lifecycle scripts.
+- Centralize HTTP error classes → map in global handler
+- **HTTP Error hierarchy**: implement `BadRequestError`, `NotFoundError`, etc. subclasses
 </details>
 
 <details>
@@ -266,13 +268,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - Request schemas (Zod or Joi) for auth, user, future CRUD
 - **Config validation at startup**: use Zod/Joi to validate `process.env` on boot
 - **Type‑safe config exports**: wrap validated env in a typed config object
-- Centralize HTTP error classes → map in global handler
-- **HTTP Error hierarchy**: implement `BadRequestError`, `NotFoundError`, etc. subclasses
-- **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
 - **Prisma type reuse**: leverage generated `Prisma.*` types instead of custom interfaces
 - **Prisma connection handling**: ensure singleton client disconnects gracefully on shutdown
-- Route guard for API endpoints
-- API endpoint validation
   </details>
 
 <details>
@@ -283,6 +280,9 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - CORS lock‑down to known origins
 - HTTPS‑only enforcement in production
 - Secure cookies/sessions (`secure`, `httpOnly`, `sameSite`)
+- Different helmets for API and WEB
+- Route guard for API endpoints
+- Route guard for WEB pages
 </details>
 
 <details>
@@ -304,6 +304,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - **Split App vs. Server**: extract `app.ts` (Express app) and `server.ts` (boot) for testability
 - **GitHub Actions**: on PR → lint/build/test/coverage; on merge → build & push Docker images
 - Semantic Release (CHANGELOG, version bump, GitHub Release)
+- Remember to add test script for graceful DB shutdown in index.ts
 </details>
 
 <details>
@@ -356,6 +357,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - Add how to run in prod into README.md
 - Add how to deploy into README.md
 - **Docker Live Reload --watch** Docker doesn't live reload FE. Fix it.
+- **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
 </details>
 
 <details>
