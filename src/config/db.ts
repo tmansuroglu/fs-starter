@@ -16,4 +16,4 @@ if (env.nodeEnv !== NodeEnvEnum.Production) {
   globalForPrisma.prisma = db
 }
 
-export default db
+export { db }

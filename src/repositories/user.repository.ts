@@ -1,4 +1,4 @@
-import db from "@config/db"
+import { db } from "@config/db"
 import { User } from "@generated-prisma"
 
 export const getUserByUserName = async (
