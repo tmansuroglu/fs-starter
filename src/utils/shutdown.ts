@@ -1,5 +1,6 @@
 import http from "http"
 import { db } from "@config/db"
+import { redisClient } from "./redis-client"
 
 export function registerShutdownHooks(
   getServer: () => http.Server | undefined
@@ -27,6 +28,7 @@ export function registerShutdownHooks(
       await db.$disconnect()
       console.log("Cleanup finished, exiting cleanly.")
       clearTimeout(forcedExit)
+      await redisClient.quit()
       process.exit(0)
     } catch (err) {
       console.error("Error during shutdown:", err)

@@ -281,9 +281,6 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - HTTPS‑only enforcement in production
 - Secure cookies/sessions (`secure`, `httpOnly`, `sameSite`)
 - Different helmets for API and WEB
-- Route guard for API endpoints
-- Route guard for WEB pages
-- Is redis setup safe for production?
 </details>
 
 <details>
@@ -354,11 +351,14 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 <details>
 <summary>Phase 12: Postponed Tasks</summary>
 
+- Persistent session with express session
 - **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
 - Add how to run in prod into README.md
 - Add how to deploy into README.md
 - **Docker Live Reload --watch** Docker doesn't live reload FE. Fix it.
 - **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
+- Route guard for API endpoints
+- different app for api and web? middleware confusion
 </details>
 
 <details>

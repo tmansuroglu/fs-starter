@@ -33,11 +33,16 @@ const sessionOptions: session.SessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
     httpOnly: true,
     sameSite: "lax",
     secure: env.nodeEnv === NodeEnvEnum.Production,
   },
-  store: new RedisStore({ client: redisClient }),
+  store: new RedisStore({
+    client: redisClient,
+    prefix: "sess:",
+    ttl: 60 * 60 * 24,
+  }),
 }
 
 app.use(session(sessionOptions))

@@ -60,6 +60,13 @@ const EnvSchema = z
       })
       .min(32, { message: "JWT_SECRET must be at least 32 characters" })
       .max(512, { message: "JWT_SECRET seems too long" }),
+    REDIS_PASSWORD: z
+      .string({
+        required_error: "REDIS_PASSWORD is required",
+        invalid_type_error: "REDIS_PASSWORD must be a string",
+      })
+      .min(32, { message: "REDIS_PASSWORD must be at least 32 characters" })
+      .max(512, { message: "REDIS_PASSWORD seems too long" }),
 
     POSTGRES_USER: z.string({ required_error: "POSTGRES_USER is required" }),
 
@@ -91,6 +98,7 @@ export type EnvConfig = {
   sessionSecret: string
   redisHost: string
   redisPort: number
+  redisPassword: string
 }
 
 export const env: EnvConfig = {
@@ -105,4 +113,5 @@ export const env: EnvConfig = {
   sessionSecret: parsedEnv.SESSION_SECRET,
   redisHost: parsedEnv.REDIS_HOST,
   redisPort: parsedEnv.REDIS_PORT,
+  redisPassword: parsedEnv.REDIS_PASSWORD,
 }
