@@ -363,6 +363,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 <details>
 <summary>Phase 13: Optional Extras</summary>
 
+- Translated errors
 - Headless CMS (Strapi/Ghost/Sanity) for blog
 - WebSockets/SSE for real‑time admin notifications
 - GraphQL gateway atop REST

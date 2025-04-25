@@ -1,0 +1,2 @@
+# ignore all EJS templates
+src/views/*.ejs
