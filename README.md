@@ -262,8 +262,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - **Install & configure lint‑staged** for faster, scoped pre‑commit checks
 </details>
 
-<details open>
-<summary>Phase 4: Validation, Auth & Error Handling(IN PROGRESS)</summary>
+<details>
+<summary>Phase 4: Validation, Auth & Error Handling (COMPLETED)</summary>
 
 - Request schemas (Zod or Joi) for auth, user, future CRUD
 - **Config validation at startup**: use Zod/Joi to validate `process.env` on boot
@@ -272,8 +272,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - **Prisma connection handling**: ensure singleton client disconnects gracefully on shutdown
   </details>
 
-<details>
-<summary>Phase 5: Security Hardening</summary>
+<details open>
+<summary>Phase 5: Security Hardening (IN PROGRESS)</summary>
 
 - CSRF (`csurf`) on all web forms; inject tokens in EJS
   - **DRY shared view data**: add middleware to inject common `res.locals` (user session,user info, CSRF tokens) into all renders
