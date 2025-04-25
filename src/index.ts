@@ -13,11 +13,14 @@ import csurf from "csurf"
 import { injectViewLocals } from "@middlewares/view-locals.middleware"
 import { rateLimiterMiddleware } from "@middlewares/rate-limiter.middleware"
 import { sessionMiddleware } from "@middlewares/session.middleware"
+import { corsMiddleware } from "@config/cors"
 
 // eslint-disable-next-line prefer-const
 let server: http.Server
 
 const app = express()
+
+app.use(corsMiddleware)
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))

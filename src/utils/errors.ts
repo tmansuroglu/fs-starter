@@ -89,3 +89,12 @@ export class InvalidIpError extends AppError {
     })
   }
 }
+
+export class CorsError extends AppError {
+  constructor({ message = "Cors Error" }: AppErrorOptions = {}) {
+    super({
+      message,
+      statusCode: 403,
+    })
+  }
+}

@@ -23,10 +23,12 @@ const EnvSchema = z
         invalid_type_error: "DATABASE_URL must be a valid URL",
       })
       .url({ message: "DATABASE_URL must be a well-formed URL" }),
+
     REDIS_HOST: z.string({
       required_error: "REDIS_HOST is required",
       invalid_type_error: "REDIS_HOST must be a valid URL",
     }),
+
     REDIS_PORT: z.coerce
       .number({
         invalid_type_error: "REDIS_PORT must be a number",
@@ -35,6 +37,7 @@ const EnvSchema = z
       .int("REDIS_PORT must be an integer")
       .min(1, { message: "REDIS_PORT must be ≥ 1" })
       .max(65535, { message: "REDIS_PORT must be ≤ 65535" }),
+
     DB_PORT: z.coerce
       .number({
         invalid_type_error: "DB_PORT must be a number",
@@ -60,6 +63,7 @@ const EnvSchema = z
       })
       .min(32, { message: "JWT_SECRET must be at least 32 characters" })
       .max(512, { message: "JWT_SECRET seems too long" }),
+
     REDIS_PASSWORD: z
       .string({
         required_error: "REDIS_PASSWORD is required",
@@ -81,6 +85,14 @@ const EnvSchema = z
       })
       .min(32, { message: "SESSION_SECRET must be at least 32 characters" })
       .max(512, { message: "SESSION_SECRET seems too long" }),
+
+    CORS_ORIGINS: z
+      .string({
+        required_error: "CORS_ORIGINS is required",
+        invalid_type_error:
+          "CORS_ORIGINS must be a comma-separated list of URLs",
+      })
+      .min(1, "CORS_ORIGINS cannot be empty"),
   })
   .passthrough()
 
@@ -99,6 +111,7 @@ export type EnvConfig = {
   redisHost: string
   redisPort: number
   redisPassword: string
+  corsOrigins: string
 }
 
 export const env: EnvConfig = {
@@ -114,4 +127,5 @@ export const env: EnvConfig = {
   redisHost: parsedEnv.REDIS_HOST,
   redisPort: parsedEnv.REDIS_PORT,
   redisPassword: parsedEnv.REDIS_PASSWORD,
+  corsOrigins: parsedEnv.CORS_ORIGINS,
 }
