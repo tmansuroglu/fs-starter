@@ -27,13 +27,13 @@ export const htmlHelmet = helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
+      scriptSrc: ["'self'", "'strict-dynamic'"],
       styleSrc: ["'self'"],
       fontSrc: ["'self'"],
       imgSrc: ["'self'"],
       objectSrc: ["'none'"],
       frameAncestors: ["'none'"],
-      baseUri: ["'self'"],
+      baseUri: ["'none'"],
       connectSrc: ["'self'"],
       formAction: ["'self'"],
       upgradeInsecureRequests: [],
