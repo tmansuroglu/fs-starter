@@ -55,8 +55,14 @@ const EnvSchema = z
     POSTGRES_PASSWORD: z.string({
       required_error: "POSTGRES_PASSWORD is required",
     }),
-
     POSTGRES_DB: z.string({ required_error: "POSTGRES_DB is required" }),
+    SESSION_SECRET: z
+      .string({
+        required_error: "SESSION_SECRET is required",
+        invalid_type_error: "SESSION_SECRET must be a string",
+      })
+      .min(32, { message: "SESSION_SECRET must be at least 32 characters" })
+      .max(512, { message: "SESSION_SECRET seems too long" }),
   })
   .passthrough()
 
@@ -71,6 +77,7 @@ export type EnvConfig = {
   postgresUser: string
   postgresPassword: string
   postgresDb: string
+  sessionSecret: string
 }
 
 export const env: EnvConfig = {
@@ -82,4 +89,5 @@ export const env: EnvConfig = {
   postgresUser: parsedEnv.POSTGRES_USER,
   postgresPassword: parsedEnv.POSTGRES_PASSWORD,
   postgresDb: parsedEnv.POSTGRES_DB,
+  sessionSecret: parsedEnv.SESSION_SECRET,
 }
