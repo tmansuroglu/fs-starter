@@ -370,5 +370,3 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - GraphQL gateway atop REST
 - **Feature flags**: toggle new features via ENV or flags service
 </details>
-
-- https redirect test
