@@ -16,6 +16,9 @@ import { sessionMiddleware } from "@middlewares/session.middleware"
 import { corsMiddleware } from "@config/cors"
 import { httpsRedirectMiddleware } from "@middlewares/https-redirect.middleware"
 
+// TODO: consider this while going prod
+// app.set('trust proxy', 1);
+
 // eslint-disable-next-line prefer-const
 let server: http.Server
 

@@ -272,8 +272,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - **Prisma connection handling**: ensure singleton client disconnects gracefully on shutdown
   </details>
 
-<details open>
-<summary>Phase 5: Security Hardening (IN PROGRESS)</summary>
+<details>
+<summary>Phase 5: Security Hardening (COMPLETED)</summary>
 
 - CSRF (`csurf`) on all web forms; inject tokens in EJS
   - **DRY shared view data**: add middleware to inject common `res.locals` (user session,user info, CSRF tokens) into all renders
@@ -283,8 +283,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - Different helmets for API and WEB
 </details>
 
-<details>
-<summary>Phase 6: Observability & Monitoring</summary>
+<details open>
+<summary>Phase 6: Observability & Monitoring (IN PROGRESS)</summary>
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
@@ -370,3 +370,5 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - GraphQL gateway atop REST
 - **Feature flags**: toggle new features via ENV or flags service
 </details>
+
+- https redirect test
