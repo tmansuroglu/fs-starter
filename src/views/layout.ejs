@@ -3,6 +3,12 @@
   <head>
     <title><%= title %></title>
   </head>
+  <link rel="stylesheet" href="/css/reset.css" />
+  <% if (stylesheets && stylesheets.length) { %>
+    <% stylesheets.forEach(function(sheet){ %>
+      <link rel="stylesheet" href="<%= sheet %>" />
+    <% }) %>
+  <% } %>
   <body>
     <%- include('partials/header') %>
 

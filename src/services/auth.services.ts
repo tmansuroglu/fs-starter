@@ -1,21 +1,21 @@
 import { env } from "@config/env"
-import { LoginPayload } from "@schemas/auth.schema"
+import { LoginPayload, RegisterPayload } from "@schemas/auth.schema"
 import { InternalServerError, UnauthorizedError } from "@utils/errors"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { getUserByUserName } from "src/repositories/user.repository"
+import { getUserByEmail } from "src/repositories/user.repository"
 
-export const loginUser = async ({ username, password }: LoginPayload) => {
-  const user = await getUserByUserName(username)
+export const loginUser = async ({ email, password }: LoginPayload) => {
+  const user = await getUserByEmail(email)
 
   if (!user) {
-    throw new UnauthorizedError({ message: "Invalid user name or password" })
+    throw new UnauthorizedError({ message: "Invalid email or password" })
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password)
 
   if (!isPasswordValid) {
-    throw new UnauthorizedError({ message: "Invalid user name or password" })
+    throw new UnauthorizedError({ message: "Invalid email or password" })
   }
 
   const token = jwt.sign({ userId: user.id }, env.jwtSecret, {
@@ -27,4 +27,9 @@ export const loginUser = async ({ username, password }: LoginPayload) => {
   }
 
   return { token }
+}
+
+export const registerUser = async ({ email, password }: RegisterPayload) => {
+  // TODO: complete this
+  console.log(email, password)
 }
