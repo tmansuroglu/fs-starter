@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "npx dotenv -e .env.dev -- prisma migrate dev --name init",
+    "migrate": "npx dotenv -e .env.dev -- prisma migrate dev",
     "generate": "npx dotenv -e .env.dev -- prisma generate",
     "dev": "npx dotenv -e .env.dev -- ts-node-dev --respawn --transpile-only --poll -r tsconfig-paths/register --watch src src/index.ts",
     "dev:docker": "docker compose --env-file .env.dev -f docker-compose.dev.yaml up --watch",

@@ -5,18 +5,18 @@
 
 - cp .env.example .env.dev
   - fill .env.dev
+- run migrations ( check How to run migration section)
 - Make sure docker is open in the background
 - npm run dev:docker
 </details>
 
-## Useful commands
+## How to run migration
 
 <details>
 <summary>Click here to expand</summary>
 
-- docker-compose --env-file .env.dev -f docker-compose.dev.yaml down -v # Stop and remove containers, volumes
-- docker image prune -af # Remove all unused images
-- docker volume prune -f # Clean up unused volumes
+- user your local db url as DATABASE_URL in .env file
+- npm run migrate
 </details>
 
 ## Request Flows

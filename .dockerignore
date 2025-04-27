@@ -27,8 +27,6 @@ Thumbs.db
 
 # Prisma artifacts
 prisma/dev.db
-prisma/migrations
-prisma/generated
 
 # Uploads (if dynamic)
 uploads

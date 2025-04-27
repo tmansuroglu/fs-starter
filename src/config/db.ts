@@ -9,7 +9,7 @@ const globalForPrisma = globalThis as GlobalPrisma
 
 const db: PrismaClient = globalForPrisma.prisma ?? new PrismaClient()
 
-if (env.nodeEnv !== NodeEnvEnum.Production) {
+if (env.nodeEnv === NodeEnvEnum.Development) {
   globalForPrisma.prisma = db
 }
 
