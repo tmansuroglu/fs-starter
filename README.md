@@ -284,7 +284,21 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details open>
-<summary>Phase 6: Observability & Monitoring (IN PROGRESS)</summary>
+<summary>Phase 6: Basic RESTful CRUD endpoints and views</summary>
+
+- Register view and endpoint
+- Login view and endpoint
+- Section CRUD
+- register view
+- login view
+- add section view
+- FE validation
+- JWT + bcrypt, SMS confirmation
+- Route-guard middleware for section pages
+</details>
+
+<details>
+<summary>Phase 7: Observability & Monitoring</summary>
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
@@ -294,7 +308,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 7: Testing & CI/CD</summary>
+<summary>Phase 8: Testing & CI/CD</summary>
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -306,7 +320,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 8: API Docs & Versioning</summary>
+<summary>Phase 9: API Docs & Versioning</summary>
 
 - OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
 - Postman collection in repo
@@ -314,7 +328,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 9: Performance & Caching</summary>
+<summary>Phase 10: Performance & Caching</summary>
 
 - Static‑asset CDN + cache headers
 - Template caching (in‑memory or Redis)
@@ -323,20 +337,16 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 10: Front‑End Rebuild</summary>
+<summary>Phase 11: Front‑End Rebuild</summary>
 
 - React/Next.js front‑end consuming your API
 - Netlify/Vercel (or S3/CloudFront) CI/CD
 - Theming, WCAG accessibility, responsive design
 - 404 & 5xx EJS error pages
-- **Login flow**
-  - FE validation
-  - JWT + bcrypt, SMS confirmation, limit user count to 1
-  - Route-guard middleware for admin pages
   </details>
 
 <details>
-<summary>Phase 11: Infra & Deployment</summary>
+<summary>Phase 12: Infra & Deployment</summary>
 
 - Multi‑stage Docker builds for minimal images
 - **NGINX**: reverse‑proxy configuration & SSL termination
@@ -349,7 +359,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 12: Postponed Tasks</summary>
+<summary>Phase 13: Postponed Tasks</summary>
 
 - Persistent session with express session
 - **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
@@ -362,7 +372,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 </details>
 
 <details>
-<summary>Phase 13: Optional Extras</summary>
+<summary>Phase 14: Optional Extras</summary>
 
 - Translated errors
 - Headless CMS (Strapi/Ghost/Sanity) for blog
