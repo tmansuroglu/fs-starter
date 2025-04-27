@@ -24,7 +24,9 @@ let server: http.Server
 
 const app = express()
 
-app.use(httpsRedirectMiddleware)
+if (env.nodeEnv === NodeEnvEnum.Production) {
+  app.use(httpsRedirectMiddleware)
+}
 
 app.use(corsMiddleware)
 

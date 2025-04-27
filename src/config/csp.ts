@@ -1,14 +1,18 @@
 import helmet from "helmet"
+import { env, NodeEnvEnum } from "./env"
 
 export const htmlHelmet = helmet({
   // removes the X-Powered-By header to prevent attackers from fingerprinting your framework
   hidePoweredBy: true,
   // enforces HTTPS for one year (including subdomains) and opts you into browser preload lists to stop downgrade and MITM attacks
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
+  hsts:
+    env.nodeEnv === NodeEnvEnum.Production
+      ? {
+          maxAge: 31536000,
+          includeSubDomains: true,
+          preload: true,
+        }
+      : false,
   // only sends the Referer header for same-origin requests to avoid leaking full URLs externally
   referrerPolicy: { policy: "strict-origin" },
   // blocks your pages from being framed anywhere to stop clickjacking attacks
@@ -45,11 +49,14 @@ export const apiHelmet = helmet({
   // removes the X-Powered-By header to prevent attackers from fingerprinting your framework
   hidePoweredBy: true,
   // enforces HTTPS for one year (including subdomains) and opts you into browser preload lists to stop downgrade and MITM attacks
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
+  hsts:
+    env.nodeEnv === NodeEnvEnum.Production
+      ? {
+          maxAge: 31536000,
+          includeSubDomains: true,
+          preload: true,
+        }
+      : false,
   // never sends the Referer header on API responses to avoid leaking URL details
   referrerPolicy: { policy: "no-referrer" },
   // blocks API routes from being framed to stop clickjacking of JSON endpoints
