@@ -288,15 +288,14 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 
 - Register view and endpoint
 - Login view and endpoint
-- Section CRUD
-- register view
-- login view
-- add section view
-- FE validation
-- JWT + bcrypt, SMS confirmation
-- Route-guard middleware for section pages
+- Logout endpoint
+- JWT + bcrypt
 - Add prisma errors into error handling middleware
 - Refactor error structure from string[] to Record<string, string>
+- Add admin page
+  - Add CRUD endpoint for 'section'
+  - Route-guard middleware for view and admin endpoints
+
 </details>
 
 <details>
