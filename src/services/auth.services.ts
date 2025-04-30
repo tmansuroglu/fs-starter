@@ -1,35 +1,32 @@
 import { env } from "@config/env"
+import { createUser, getUserByEmail } from "@repositories/user.repository"
 import { LoginPayload, RegisterPayload } from "@schemas/auth.schema"
 import { InternalServerError, UnauthorizedError } from "@utils/errors"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { getUserByEmail } from "src/repositories/user.repository"
 
 export const loginUser = async ({ email, password }: LoginPayload) => {
   const user = await getUserByEmail(email)
 
-  if (!user) {
-    throw new UnauthorizedError({ message: "Invalid email or password" })
-  }
-
-  const isPasswordValid = await bcrypt.compare(password, user.password)
+  const isPasswordValid = await bcrypt.compare(password, user?.password || "")
 
   if (!isPasswordValid) {
-    throw new UnauthorizedError({ message: "Invalid email or password" })
+    throw new UnauthorizedError({ message: "Invalid password." })
   }
 
-  const token = jwt.sign({ userId: user.id }, env.jwtSecret, {
+  const token = jwt.sign({ userId: user?.id }, env.jwtSecret, {
     expiresIn: "1h",
   })
 
   if (!token) {
-    throw new InternalServerError()
+    throw new InternalServerError({ message: "Failed to create token" })
   }
 
   return { token }
 }
 
 export const registerUser = async ({ email, password }: RegisterPayload) => {
-  // TODO: complete this
-  console.log(email, password)
+  const hashedPassword = bcrypt.hashSync(password, 10)
+
+  return await createUser(email, hashedPassword)
 }
