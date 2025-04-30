@@ -286,15 +286,16 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 <details open>
 <summary>Phase 6: Basic RESTful CRUD endpoints and views</summary>
 
-- Register view and endpoint
-- Login view and endpoint
-- Logout endpoint
+- Register view and RESTful endpoint
+- Login view and RESTful endpoint
+- Logout RESTful endpoint
 - JWT + bcrypt
 - Add prisma errors into error handling middleware
 - Refactor error structure from string[] to Record<string, string>
 - Add admin page
-  - Add CRUD endpoint for 'section'
+  - Add RESTful CRUD endpoints for 'section'
   - Route-guard middleware for view and admin endpoints
+- Make sure all endpoints are RESTful
 
 </details>
 
