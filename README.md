@@ -295,6 +295,8 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - FE validation
 - JWT + bcrypt, SMS confirmation
 - Route-guard middleware for section pages
+- Add prisma errors into error handling middleware
+- Refactor error structure from string[] to Record<string, string>
 </details>
 
 <details>
