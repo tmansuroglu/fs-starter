@@ -10,7 +10,7 @@ export const loginController = async (req: LoginRequest, res: Response) => {
 
   const { token } = await loginUser({ email, password })
 
-  return res.status(200).json({
+  return res.status(201).json({
     message: "Login successful",
     token,
   })
@@ -26,7 +26,7 @@ export const registerController = async (
 
   await registerUser({ email, password })
 
-  return res.status(200).json({
+  return res.status(201).json({
     message: "Register successful",
   })
 }
