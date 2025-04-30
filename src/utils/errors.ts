@@ -1,6 +1,6 @@
 type AppErrorOptions = {
   message?: string
-  errors?: string[]
+  errors?: Record<string, string>
   statusCode?: number
   isOperational?: boolean
   retryAfter?: string
@@ -9,7 +9,7 @@ type AppErrorOptions = {
 export class AppError extends Error {
   statusCode: number
   isOperational: boolean
-  errors?: string[]
+  errors?: Record<string, string>
   retryAfter?: string
 
   constructor({

@@ -50,15 +50,19 @@ export function validate<Schema extends ZodSchema<any>>(
     const result = schema.safeParse(payload)
 
     if (!result.success) {
-      const errors = result.error.issues.map((issue) => issue.message)
-
-      throw new BadRequestError(
-        errors.length > 1
-          ? {
-              errors,
-            }
-          : { message: errors[0] }
+      const errors = result.error.issues.reduce(
+        (acc, issue) => {
+          const key = issue.path.join(".") || issue.path.toString()
+          acc[key] = issue.message
+          return acc
+        },
+        {} as Record<string, string>
       )
+
+      throw new BadRequestError({
+        message: "Failed to validate payload",
+        errors,
+      })
     }
 
     // overwrite req.params/query/body with Zod’s cleaned & transformed data
