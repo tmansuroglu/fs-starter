@@ -3,6 +3,7 @@
 import { ZodSchema } from "zod"
 import type { NextFunction, Request, Response } from "express"
 import { BadRequestError } from "@utils/errors"
+import { FieldErrors } from "@utils/error-responder"
 
 // 1. Pull out the full parsed output type from any ZodSchema
 type SchemaOutput<Schema extends ZodSchema<any>> =
@@ -50,14 +51,11 @@ export function validate<Schema extends ZodSchema<any>>(
     const result = schema.safeParse(payload)
 
     if (!result.success) {
-      const errors = result.error.issues.reduce(
-        (acc, issue) => {
-          const key = issue.path.join(".") || issue.path.toString()
-          acc[key] = issue.message
-          return acc
-        },
-        {} as Record<string, string>
-      )
+      const errors = result.error.issues.reduce((acc, issue) => {
+        const key = issue.path[issue.path.length - 1]
+        acc[key] = issue.message
+        return acc
+      }, {} as FieldErrors)
 
       throw new BadRequestError({
         message: "Failed to validate payload",
