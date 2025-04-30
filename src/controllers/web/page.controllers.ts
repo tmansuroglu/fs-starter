@@ -4,6 +4,7 @@ export const renderHomePage: RequestHandler = (req, res) => {
   res.render("layout", {
     title: "This will be my portfolio",
     page: "home",
+    stylesheets: [],
   })
 }
 
