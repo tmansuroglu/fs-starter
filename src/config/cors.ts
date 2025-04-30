@@ -1,6 +1,6 @@
 import cors, { CorsOptions } from "cors"
 import { env } from "./env"
-import { CorsError } from "@utils/errors"
+import { CorsError } from "@utils/errors-classes"
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodSchema } from "zod"
 import type { NextFunction, Request, Response } from "express"
-import { BadRequestError } from "@utils/errors"
+import { BadRequestError } from "@utils/errors-classes"
 import { FieldErrors } from "@utils/error-responder"
 
 // 1. Pull out the full parsed output type from any ZodSchema

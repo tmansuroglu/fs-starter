@@ -1,6 +1,6 @@
 import { Prisma } from "@generated-prisma"
 import { errorResponder } from "@utils/error-responder"
-import { AppError } from "@utils/errors"
+import { AppError } from "@utils/errors-classes"
 import {
   formatPrismaError,
   getPrismaErrorStatus,

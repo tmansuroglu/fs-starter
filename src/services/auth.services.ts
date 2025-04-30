@@ -1,7 +1,7 @@
 import { env } from "@config/env"
 import { createUser, getUserByEmail } from "@repositories/user.repository"
 import { LoginPayload, RegisterPayload } from "@schemas/auth.schema"
-import { InternalServerError, UnauthorizedError } from "@utils/errors"
+import { InternalServerError, UnauthorizedError } from "@utils/errors-classes"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
