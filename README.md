@@ -251,21 +251,29 @@ TBA
 <details open>
 <summary>Phase 6: Basic RESTful CRUD endpoints and views</summary>
 
-- Register page
-- Login page
+### Completed
+
+- Create Register page (basic UI)
+- Create Login page (basic UI)
+- Add prisma errors into error handling middleware
+- Change file organization
+- Update README.md
+- Refactor error structure from string[] to Record<string, string>
+
+### In progress
+
 - Session restful crud
   - JWT + bcrypt
 - User restful crud
+
+### TODO
+
 - Admin page
 - Route guard for pages and endpoints
-- Add prisma errors into error handling middleware
-- Refactor error structure from string[] to Record<string, string>
-- Refactor file organization from layered to by feature
-  - Update README.md
 - Improve validation messages from prisma orm
-- Router ve index.ts içindeki middlewareler çalışıyor mu?
+- Make sure all the middlewares in index.ts and router files are working as inteded
 - Domain Layer Purity ? There is leak
-- Infrastructure vs Middleware
+- Infrastructure vs Middleware. Some files are misplaced. Maybe logic is not understood properly
 - Null‐checks: In your session service, you do user?.id when signing your JWT; if getUserByEmail returns null, you’ll sign { userId: undefined }. Either ensure the user exists (throw an error) before hashing or keep your types consistent.
 
 </details>
