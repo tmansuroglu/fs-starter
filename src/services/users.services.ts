@@ -1,5 +1,5 @@
-import { createUser } from "@repositories/user.repository"
-import { CreateUserPayload } from "@schemas/user.schema"
+import { createUser } from "@repositories/users.repository"
+import { CreateUserPayload } from "@schemas/users.schema"
 import bcrypt from "bcryptjs"
 
 export const createUserService = async ({

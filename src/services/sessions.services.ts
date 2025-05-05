@@ -1,6 +1,6 @@
 import { env } from "@config/env"
-import { getUserByEmail } from "@repositories/user.repository"
-import { CreateSessionPayload } from "@schemas/session.schema"
+import { getUserByEmail } from "@repositories/users.repository"
+import { CreateSessionPayload } from "@schemas/sessions.schema"
 import { InternalServerError, UnauthorizedError } from "@utils/errors-classes"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"

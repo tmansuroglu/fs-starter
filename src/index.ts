@@ -5,8 +5,8 @@ import { env, NodeEnvEnum } from "@config/env"
 import { htmlHelmet, apiHelmet } from "@config/csp"
 import { permissionsPolicyMiddleware } from "@middlewares/permission-policy.middleware"
 import pageRouter from "@webRoutes/page.routes"
-import userRouter from "@apiRoutes/user.routes"
-import sessionRouter from "@apiRoutes/session.routes"
+import usersRouter from "@apiRoutes/users.routes"
+import sessionsRouter from "@apiRoutes/sessions.routes"
 import { errorHandlerMiddleware } from "@middlewares/error-handler.middleware"
 import { registerShutdownHooks } from "@utils/shutdown"
 import cookieParser from "cookie-parser"
@@ -50,8 +50,8 @@ if (env.nodeEnv === NodeEnvEnum.Production) {
   api.use(rateLimiterMiddleware)
 }
 
-api.use(userRouter)
-api.use(sessionRouter)
+api.use(usersRouter)
+api.use(sessionsRouter)
 
 app.use("/api", api)
 

@@ -1,6 +1,6 @@
 import { ValidatedRequest } from "@middlewares/validation.middleware"
-import { createUserSchema } from "@schemas/user.schema"
-import { createUserService } from "@services/user.services"
+import { createUserSchema } from "@schemas/users.schema"
+import { createUserService } from "@services/users.services"
 import { Response } from "express"
 
 type CreateUserRequest = ValidatedRequest<typeof createUserSchema>

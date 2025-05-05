@@ -1,13 +1,13 @@
-import { createUserController } from "@apiControllers/user.controller"
+import { createUserController } from "@apiControllers/users.controller"
 import { validate } from "@middlewares/validation.middleware"
-import { createUserSchema } from "@schemas/user.schema"
+import { createUserSchema } from "@schemas/users.schema"
 import { asyncHandler } from "@utils/async-handler"
 import { Router } from "express"
 
 const userRouter = Router()
 
 userRouter.post(
-  "/user",
+  "/users",
   validate(createUserSchema),
   asyncHandler(createUserController)
 )

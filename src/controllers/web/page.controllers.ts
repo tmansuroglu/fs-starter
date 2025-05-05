@@ -2,7 +2,7 @@ import { RequestHandler } from "express"
 
 export const renderHomePage: RequestHandler = (req, res) => {
   res.render("layout", {
-    title: "This will be my portfolio",
+    title: "Home page",
     page: "home",
     stylesheets: [],
   })

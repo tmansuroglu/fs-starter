@@ -1,6 +1,6 @@
 import { ValidatedRequest } from "@middlewares/validation.middleware"
-import { createSessionSchema } from "@schemas/session.schema"
-import { createSessionService } from "@services/session.services"
+import { createSessionSchema } from "@schemas/sessions.schema"
+import { createSessionService } from "@services/sessions.services"
 import { Response } from "express"
 
 type CreateSessionRequest = ValidatedRequest<typeof createSessionSchema>
