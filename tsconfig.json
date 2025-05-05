@@ -31,18 +31,15 @@
     // "moduleResolution": "node10",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "@apiControllers/*": ["src/controllers/api/*"],
-      "@webControllers/*": ["src/controllers/web/*"],
-      "@services/*": ["src/services/*"],
       "@config/*": ["src/config/*"],
-      "@utils/*": ["src/utils/*"],
       "@middlewares/*": ["src/middlewares/*"],
-      "@apiRoutes/*": ["src/routes/api/*"],
-      "@webRoutes/*": ["src/routes/web/*"],
-      "@views/*": ["src/views/*"],
       "@generated-prisma": ["prisma/generated"],
-      "@schemas/*": ["src/schemas/*"],
-      "@repositories/*": ["src/repositories/*"]
+      "@domains/*": ["src/domains/*"],
+      "@utils/*": ["src/utils/*"],
+      "@apiV1/*": ["src/api/v1/*"],
+      "@infrastructures/*": ["src/infrastructures/*"],
+      "@errors/*": ["src/errors/*"],
+      "@web/*": ["src/web/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

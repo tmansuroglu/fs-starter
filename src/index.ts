@@ -1,21 +1,21 @@
-import express, { Request, Response } from "express"
+import express from "express"
 import path from "path"
 import http from "http"
-import { env, NodeEnvEnum } from "@config/env"
-import { htmlHelmet, apiHelmet } from "@config/csp"
-import { permissionsPolicyMiddleware } from "@middlewares/permission-policy.middleware"
-import pageRouter from "@webRoutes/page.routes"
-import usersRouter from "@apiRoutes/users.routes"
-import sessionsRouter from "@apiRoutes/sessions.routes"
-import { errorHandlerMiddleware } from "@middlewares/error-handler.middleware"
-import { registerShutdownHooks } from "@utils/shutdown"
+import { env } from "@config/env"
+import { permissionsPolicyMiddleware } from "@middlewares/permission-policy"
+import { apiErrorHandlerMiddleware } from "@middlewares/api-error-handler"
 import cookieParser from "cookie-parser"
 import csurf from "csurf"
-import { injectViewLocals } from "@middlewares/view-locals.middleware"
-import { rateLimiterMiddleware } from "@middlewares/rate-limiter.middleware"
-import { sessionMiddleware } from "@middlewares/session.middleware"
-import { corsMiddleware } from "@config/cors"
-import { httpsRedirectMiddleware } from "@middlewares/https-redirect.middleware"
+import { injectViewLocalsMiddleware } from "@middlewares/view-locals"
+import { rateLimiterMiddleware } from "@middlewares/rate-limiter"
+import { sessionMiddleware } from "@middlewares/session"
+import { httpsRedirectMiddleware } from "@middlewares/https-redirect"
+import { apiV1Router } from "@apiV1/router"
+import { NodeEnvEnum } from "@utils/enums"
+import { apiHelmet, htmlHelmet } from "@infrastructures/csp"
+import { corsSettings } from "@infrastructures/cors"
+import { registerShutdownHooks } from "@infrastructures/shutdown"
+import { webRouter } from "@web/router"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -25,59 +25,47 @@ let server: http.Server
 
 const app = express()
 
-if (env.nodeEnv === NodeEnvEnum.Production) {
-  app.use(httpsRedirectMiddleware)
-}
+app.use(httpsRedirectMiddleware)
 
-app.use(corsMiddleware)
+app.use(corsSettings)
 
 app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, "views"))
+
+app.set("views", path.join(__dirname, "web/pages"))
 
 registerShutdownHooks(() => server)
 
-app.use(cookieParser(process.env.SESSION_SECRET))
+app.use("/", express.static(path.join(__dirname, "web/public")))
+
+app.use(cookieParser(env.sessionSecret))
 
 app.use(sessionMiddleware)
 
-// ——————— API router ———————
-const api = express.Router()
+// — API v1 pipeline —
+app.use(
+  "/api/v1",
+  // TODO: enable when you opt out of HTML for action
+  // express.json({ limit: "10kb" }),
+  express.urlencoded({
+    extended: true,
+    limit: "10kb",
+  }),
+  apiHelmet,
+  rateLimiterMiddleware,
+  apiV1Router,
+  apiErrorHandlerMiddleware
+)
 
-api.use(express.json({ limit: "10kb" }), apiHelmet)
-api.use(express.urlencoded({ extended: true, limit: "10kb" }))
-
-if (env.nodeEnv === NodeEnvEnum.Production) {
-  api.use(rateLimiterMiddleware)
-}
-
-api.use(usersRouter)
-api.use(sessionsRouter)
-
-app.use("/api", api)
-
-// ——————— Web (HTML) router ———————
-const web = express.Router()
-
-web.use(csurf({ cookie: false }))
-
-web.use(injectViewLocals)
-
-web.use(htmlHelmet, permissionsPolicyMiddleware)
-
-web.use(express.static(path.join(__dirname, "public")))
-
-web.use(express.urlencoded({ extended: true, limit: "10kb" }))
-
-web.use(pageRouter)
-
-app.use("/", web)
-
-// ——————— 404 catch-all ———————
-app.use((req: Request, res: Response) => {
-  res.status(404).render("404")
-})
-
-app.use(errorHandlerMiddleware)
+// - WEB pipeline -
+app.use(
+  "/",
+  express.urlencoded({ extended: true, limit: "10kb" }),
+  htmlHelmet,
+  permissionsPolicyMiddleware,
+  csurf({ cookie: false }),
+  injectViewLocalsMiddleware,
+  webRouter
+)
 
 server = app.listen(env.port, () => {
   const msg =

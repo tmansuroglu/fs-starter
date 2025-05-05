@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <link rel="stylesheet" href="/css/reset.css" />
+  <% if (stylesheets && stylesheets.length) { %>
+    <% stylesheets.forEach(function(sheet){ %>
+      <link rel="stylesheet" href="<%= sheet %>" />
+    <% }) %>
+  <% } %>
+  <body>
+    <%- include('../components/header.ejs') %>
+
+    <main>
+      <!-- ← this is where your page content goes -->
+      <%- include(page) %>
+    </main>
+
+    <%- include('../components/footer.ejs') %>
+  </body>
+</html>

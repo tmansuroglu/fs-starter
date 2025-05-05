@@ -1,12 +1,8 @@
 import { z } from "zod"
 import dotenv from "dotenv"
+import { NodeEnvEnum } from "@utils/enums"
 
 dotenv.config()
-
-export enum NodeEnvEnum {
-  Development = "development",
-  Production = "production",
-}
 
 const EnvSchema = z
   .object({
@@ -98,7 +94,7 @@ const EnvSchema = z
 
 const parsedEnv = EnvSchema.parse(process.env)
 
-export type EnvConfig = {
+type EnvConfig = {
   nodeEnv: NodeEnvEnum
   databaseUrl: string
   dbPort: number
