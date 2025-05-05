@@ -1,216 +1,181 @@
-## How to run the app
+# Full Stack Starter
 
-<details>
-<summary>Development</summary>
+A production-ready boilerplate for building secure, scalable web applications with Node.js, TypeScript, Express, Prisma, Redis, and Docker.
 
-- cp .env.example .env.dev
-  - fill .env.dev
-- run migrations ( check How to run migration section)
-- Make sure docker is open in the background
-- npm run dev:docker
-</details>
+## Features
 
-## How to run migration
+- TypeScript configuration with `ts-node-dev`
+- Express server with best-practice middleware:
+  - Helmet (CSP) & permissions policy
+  - Rate limiting
+  - CSRF protection
+  - HTTPS redirection
+  - CORS support
+- Prisma ORM for PostgreSQL
+- Redis-backed session store using `express-session` & `connect-redis`
+- EJS templating for server-side rendering
+- Environment validation with `zod`
+- Dockerized development & production setups
+- Git hooks with Husky & lint-staged
 
-<details>
-<summary>Click here to expand</summary>
+## Tech Stack
 
-- user your local db url as DATABASE_URL in .env file
-- npm run migrate
-</details>
+| Component            | Framework / Library         |
+| -------------------- | --------------------------- |
+| Runtime              | Node.js                     |
+| Language             | TypeScript                  |
+| Web framework        | Express.js                  |
+| Database ORM         | Prisma                      |
+| Database             | PostgreSQL                  |
+| Session store        | Redis                       |
+| Template engine      | EJS                         |
+| Validation           | Zod                         |
+| Security             | Helmet, CSURF, rate limiter |
+| Configuration        | dotenv                      |
+| Docker orchestration | Docker Compose              |
 
-## Request Flows
+## Prerequisites
 
-<details>
-<summary>Request Flow For Web</summary>
+- [Node.js](https://nodejs.org/) v18 or higher
+- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/) (for containerized development/production)
+- A running PostgreSQL instance (local or hosted)
+- A running Redis instance (local or via Docker)
 
-- Browser (GET /web-route)
-- ↓
-- Route → Controller
-- ↓
-- Service → Repository
-- ↓
-- PostgreSQL
-- ↓
-- Controller returns rendered HTML view
-</details>
+## Getting Started
 
-<details>
-<summary>Request Flow For API</summary>
+```bash
+git clone <repo-url>
+cd fs-starter-main
+cp .env.example .env.dev
+# Fill in .env.dev with your environment variables
+```
 
-- Browser (POST /api-endpoint)
-- ↓
-- API Route → Controller
-- ↓
-- Service → Repository
-- ↓
-- PostgreSQL
-- ↓
-- Returns JSON response
-</details>
+## Development
 
-## Architecture
+**Local (without Docker)**
 
-<details>
-<summary>Click here to expand</summary>
+```bash
+npm install
+npm run generate-dev
+npm run migrate-dev
+npm run dev # or with docker npm run dev:docker
 
-This project follows a clean, layered design. Each layer has **allowed** activities and clear **limits** to keep code maintainable and decoupled.
+```
 
----
+## Docker Reset
 
-### 1. Framework / Driver
+```bash
+npm run docker:reset
 
-- **Allowed**
-  - ✅ Creating and configuring the Express app (`src/index.ts`)
-  - ✅ Registering global middleware (CORS, body-parser, etc.)
-  - ✅ Mounting top-level routes (`src/routes/*.ts`)
-- **Limits**
-  - ❌ No business logic
-  - ❌ No request parsing/validation beyond global parsers
-  - ❌ No direct data access
+```
 
----
+## Production
 
-### 2. Interface-Adapter
+TBA
 
-#### A) Validation Middleware (`src/middlewares/validation.middleware.ts`)
+## Database Migrations
 
-- **Allowed**
-  - ✅ Parsing, coercing and stripping HTTP payloads via Zod schemas
-  - ✅ Rejecting invalid requests with uniform 4xx responses
-  - ✅ Attaching cleaned data to `req` for downstream handlers
-- **Limits**
-  - ❌ No domain/business rules
-  - ❌ No database or external API calls
-
-#### B) Controllers (`src/controllers/*.ts`)
-
-- **Allowed**
-  - ✅ Receiving a _validated_ `req` (typed by Zod)
-  - ✅ Calling **services** with plain payloads
-  - ✅ Formatting and sending HTTP responses (status codes, JSON)
-  - ✅ Delegating errors to a global error handler via `next(err)`
-- **Limits**
-  - ❌ No low-level validation or parsing
-  - ❌ No direct repository / ORM usage
-  - ❌ No Zod schema definitions
-
----
-
-### 3. Application-Logic (Services) (`src/services/*.ts`)
-
-- **Allowed**
-  - ✅ Implementing core use-cases (e.g. `loginUser`, `createOrder`)
-  - ✅ Enforcing business invariants and orchestration of domain rules
-  - ✅ Calling repositories to fetch or persist data
-  - ✅ Throwing domain-level errors (e.g. `UnauthorizedError`)
-- **Limits**
-  - ❌ No Express `Request`/`Response` or middleware concerns
-  - ❌ No raw HTTP parsing or Zod validation
-  - ❌ No framework-specific code
-
----
-
-### 4. Domain / Model (Schemas & Types) (`src/schemas/*.schema.ts`)
-
-- **Allowed**
-  - ✅ Defining Zod schemas for inputs and entities (e.g. `LoginPayload`)
-  - ✅ Exporting plain TypeScript types via `z.infer<>`
-  - ✅ Shared domain constants or enums
-- **Limits**
-  - ❌ No Express or HTTP imports
-  - ❌ No service/business logic
-  - ❌ No data-access code
-
----
-
-### 5. Infrastructure (Repositories & Adapters) (`src/repositories/*.ts`)
-
-- **Allowed**
-  - ✅ Performing data access (database queries, ORM calls)
-  - ✅ Calling external APIs or cache layers
-  - ✅ Mapping raw data into domain entities
-- **Limits**
-  - ❌ No business rules or orchestration
-  - ❌ No HTTP handling or validation
-
----
-
-#### Why this matters
-
-- 🔄 **One-way dependencies**:  
-  Framework → Interface-Adapter → Application-Logic → Domain → Infrastructure
-- ✅ **Separation of concerns**:  
-  Validation, business rules, data access and HTTP wiring each live in their own layer
-- ⚙️ **Testability**:  
-  Services test with pure types, controllers test with validated requests, infrastructure tests with stubs
-- 🔄 **Reusability**:  
-  Domain schemas & services can be reused in CLI tools, GraphQL APIs, or other adapters
-
-</details>
+- **Generate client**: `npm run generate-dev`
+- **Apply migrations (dev)**: `npm run migrate-dev`
+- **Apply migrations (prod)**: TBA
 
 ## Project Structure
 
 <details>
 <summary>Click here to expand</summary>
 
-- .gitignore
+## Project Structure
+
+```plaintext
 - .dockerignore
-- .eslint.config.mjs
+- .env.example
+- .gitignore
+- .husky/
+  - commit-msg
+  - pre-commit
+- .lintstagedrc.json
+- .prettierignore
 - .prettierrc
+- Dockerfile.dev
+- Dockerfile.prod
+- README.md
 - commitlint.config.js
 - docker-compose.dev.yaml
 - docker-compose.prod.yaml
-- Dockerfile.dev
-- Dockerfile.prod
-- .env.example
+- eslint.config.mjs
 - package.json
 - package-lock.json
 - tsconfig.json
-- README.md
-- .husky/
-  - pre-commit
-  - commit-msg
 - prisma/
   - schema.prisma
+  - migrations/
+    - ...
 - src/
   - index.ts
+  - api/
+    - v1/
+      - router.ts
+      - sessions/
+        - controllers.ts
+        - router.ts
+        - schemas.ts
+      - users/
+        - controllers.ts
+        - router.ts
+        - schemas.ts
   - config/
     - env.ts
+  - domains/
+    - sessions/
+      - repositories.ts
+      - services.ts
+    - users/
+      - repositories.ts
+      - services.ts
+  - errors/
+    - custom-errors.ts
+    - prisma-errors.ts
+  - infrastructures/
+    - cors.ts
+    - csp.ts
     - db.ts
-  - controllers/
-    - api/
-      - auth.controller.ts
-    - web/
-      - page.controller.ts
-  - public/
-    - css/
-      - login.css
-      - reset.css
+    - redis-client.ts
+    - shutdown.ts
   - middlewares/
-    - auth.middleware.ts
-    - error-handler.middleware.ts
-    - rate-limiter.middleware.ts
-  - repositories/
-    - user.repository.ts
-  - routes/
-    - api/
-      - auth.routes.ts
-    - web/
-      - page.routes.ts
-  - services/
-    - auth.services.ts
-  - utils/
+    - api-error-handler.ts
     - async-handler.ts
-    - errors.ts
-  - views/
-    - admin.ejs
-    - home.ejs
-    - login.ejs
-    - partials/
+    - https-redirect.ts
+    - permission-policy.ts
+    - rate-limiter.ts
+    - session.ts
+    - validation.ts
+    - view-locals.ts
+  - utils/
+    - api-error-responder.ts
+    - enums.ts
+  - web/
+    - components/
       - footer.ejs
       - header.ejs
-      </details>
+    - pages/
+      - 404.ejs
+      - 500.ejs
+      - admin.ejs
+      - csrf-error.ejs
+      - home.ejs
+      - layout.ejs
+      - login.ejs
+      - register.ejs
+    - public/
+      - css/
+        - login.css
+        - register.css
+        - reset.css
+    - router.ts
+    - controllers.ts
+```
+
+</details>
 
 ## 🚀 Roadmap
 
@@ -286,16 +251,22 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 <details open>
 <summary>Phase 6: Basic RESTful CRUD endpoints and views</summary>
 
-- Register view and RESTful endpoint
-- Login view and RESTful endpoint
-- Logout RESTful endpoint
-- JWT + bcrypt
+- Register page
+- Login page
+- Session restful crud
+  - JWT + bcrypt
+- User restful crud
+- Admin page
+- Route guard for pages and endpoints
 - Add prisma errors into error handling middleware
 - Refactor error structure from string[] to Record<string, string>
-- Add admin page
-  - Add RESTful CRUD endpoints for 'section'
-  - Route-guard middleware for admin view and endpoints
-- Make sure all endpoints are RESTful
+- Refactor file organization from layered to by feature
+  - Update README.md
+- Improve validation messages from prisma orm
+- Router ve index.ts içindeki middlewareler çalışıyor mu?
+- Domain Layer Purity ? There is leak
+- Infrastructure vs Middleware
+- Null‐checks: In your session service, you do user?.id when signing your JWT; if getUserByEmail returns null, you’ll sign { userId: undefined }. Either ensure the user exists (throw an error) before hashing or keep your types consistent.
 
 </details>
 
@@ -382,3 +353,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - GraphQL gateway atop REST
 - **Feature flags**: toggle new features via ENV or flags service
 </details>
+
+## License
+
+[MIT](https://chatgpt.com/c/LICENSE)
