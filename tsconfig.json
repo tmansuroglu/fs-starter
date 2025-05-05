@@ -36,7 +36,7 @@
       "@generated-prisma": ["prisma/generated"],
       "@domains/*": ["src/domains/*"],
       "@utils/*": ["src/utils/*"],
-      "@apiV1/*": ["src/api/v1/*"],
+      "@api/*": ["src/api/*"],
       "@infrastructures/*": ["src/infrastructures/*"],
       "@errors/*": ["src/errors/*"],
       "@web/*": ["src/web/*"]

@@ -1,6 +1,6 @@
 import express from "express"
 import path from "path"
-import http from "http"
+import { Server } from "http"
 import { env } from "@config/env"
 import { permissionsPolicyMiddleware } from "@middlewares/permission-policy"
 import { apiErrorHandlerMiddleware } from "@middlewares/api-error-handler"
@@ -10,18 +10,18 @@ import { injectViewLocalsMiddleware } from "@middlewares/view-locals"
 import { rateLimiterMiddleware } from "@middlewares/rate-limiter"
 import { sessionMiddleware } from "@middlewares/session"
 import { httpsRedirectMiddleware } from "@middlewares/https-redirect"
-import { apiV1Router } from "@apiV1/router"
 import { NodeEnvEnum } from "@utils/enums"
 import { apiHelmet, htmlHelmet } from "@infrastructures/csp"
 import { corsSettings } from "@infrastructures/cors"
 import { registerShutdownHooks } from "@infrastructures/shutdown"
 import { webRouter } from "@web/router"
+import { apiV1Router } from "@api/v1/router"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
 
 // eslint-disable-next-line prefer-const
-let server: http.Server
+let server: Server
 
 const app = express()
 
@@ -44,8 +44,7 @@ app.use(sessionMiddleware)
 // — API v1 pipeline —
 app.use(
   "/api/v1",
-  // TODO: enable when you opt out of HTML for action
-  // express.json({ limit: "10kb" }),
+  express.json({ limit: "10kb" }),
   express.urlencoded({
     extended: true,
     limit: "10kb",
