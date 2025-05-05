@@ -1,11 +1,14 @@
 import { env } from "@config/env"
-import { createUser, getUserByEmail } from "@repositories/user.repository"
-import { LoginPayload, RegisterPayload } from "@schemas/auth.schema"
+import { getUserByEmail } from "@repositories/user.repository"
+import { CreateSessionPayload } from "@schemas/session.schema"
 import { InternalServerError, UnauthorizedError } from "@utils/errors-classes"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
-export const loginUser = async ({ email, password }: LoginPayload) => {
+export const createSessionService = async ({
+  email,
+  password,
+}: CreateSessionPayload) => {
   const user = await getUserByEmail(email)
 
   const isPasswordValid = await bcrypt.compare(password, user?.password || "")
@@ -23,10 +26,4 @@ export const loginUser = async ({ email, password }: LoginPayload) => {
   }
 
   return { token }
-}
-
-export const registerUser = async ({ email, password }: RegisterPayload) => {
-  const hashedPassword = bcrypt.hashSync(password, 10)
-
-  return await createUser(email, hashedPassword)
 }

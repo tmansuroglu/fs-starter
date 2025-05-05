@@ -294,7 +294,7 @@ This project follows a clean, layered design. Each layer has **allowed** activit
 - Refactor error structure from string[] to Record<string, string>
 - Add admin page
   - Add RESTful CRUD endpoints for 'section'
-  - Route-guard middleware for view and admin endpoints
+  - Route-guard middleware for admin view and endpoints
 - Make sure all endpoints are RESTful
 
 </details>
