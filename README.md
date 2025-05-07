@@ -79,6 +79,167 @@ TBA
 - **Apply migrations (dev)**: `npm run migrate-dev`
 - **Apply migrations (prod)**: TBA
 
+## Architecture Overview
+
+<details>
+<summary>Click here to expand</summary>
+
+This project follows a **Clean, Layered Architecture** (also known as n-tier or Onion Architecture). This approach cleanly separates concerns into discrete layers, making the codebase more maintainable, testable, and scalable.
+
+```text
+Client
+  ↓
+Express & Middleware
+(src/index.ts + src/middlewares)
+  ↓
+Routing → Controllers
+(src/api & src/web)
+  ↓
+Services
+(src/domains/*/services.ts)            ← Business logic
+  ↓
+Repositories
+(src/domains/*/repositories.ts)       ← Data-access abstraction
+  ↓
+Prisma Client & Redis
+(src/infrastructures/*)               ← Concrete adapters
+```
+
+---
+
+### 1. Presentation Layer
+
+**Purpose:** Handle HTTP concerns (routing, validation, request/response shaping, and view rendering).
+
+- **Entry Point** (`src/index.ts`)
+
+  - Bootstraps Express, applies global middleware (Helmet, CORS, rate-limit, CSRF, HTTPS redirect), and mounts API & Web routers.
+
+- **API Routes** (`src/api/v1/…`)
+
+  - Versioned JSON endpoints under `/api/v1`.
+  - Each resource (e.g. `sessions`, `users`) has:
+  - `router.ts` – defines routes.
+  - `controllers.ts` – handles request/response, calls services.
+  - `schemas.ts` – Zod schemas for validation.
+
+- **Web Routes** (`src/web/…`)
+
+  - EJS-based server-rendered views in `components/` and `pages/`.
+  - `router.ts` and `controllers.ts` render pages (e.g. login, register, admin).
+
+---
+
+### 2. Domain Layer
+
+**Purpose:** Encapsulate core business rules and use-case logic, independent of web or database frameworks.
+
+- **Services** (`src/domains/{sessions,users}/services.ts`)
+
+  - Orchestrate use cases (e.g. “register user”, “create session”).
+
+- **Repositories** (`src/domains/{sessions,users}/repositories.ts`)
+
+  - Define abstract data-access methods (e.g. `findByEmail`, `createSession`).
+
+> These modules never import Express, HTTP, or view libraries—only plain TypeScript/JavaScript.
+
+---
+
+### 3. Infrastructure Layer
+
+**Purpose:** Provide concrete implementations for external systems (database, cache, sessions, etc.).
+
+- **Database** (`src/infrastructures/db.ts`)
+
+  - Exports a singleton Prisma client connected to PostgreSQL.
+
+- **Cache / Session Store** (`src/infrastructures/redis-client.ts`)
+
+  - Exports a Redis client for `express-session`.
+
+- **Security & Ops**
+
+  - Centralized CORS policies (`cors.ts`), Content Security Policy headers (`csp.ts`), and graceful shutdown logic (`shutdown.ts`).
+
+> Repositories import these adapters to persist and retrieve data.
+
+---
+
+### 4. Cross-Cutting Concerns
+
+**Purpose:** Shared utilities and middleware used across multiple layers.
+
+- **Errors** (`src/errors/…`)
+
+  - Custom HTTP error classes (`custom-errors.ts`) and Prisma-specific error mappings (`prisma-errors.ts`).
+
+- **Middleware** (`src/middlewares/…`)
+
+  - Error handling (`api-error-handler.ts`), async wrapper (`async-handler.ts`), permission checks, view-locals injection, etc.
+
+- **Utilities** (`src/utils/…`)
+
+  - Common helpers (e.g. error formatting, enums).
+
+- **Configuration** (`src/config/env.ts`)
+
+  - Loads and validates environment variables via Zod, exposing a typed `config` object.
+
+---
+
+## Request Flow (Example)
+
+1. **HTTP & Middleware**
+
+   - Incoming request → global middleware (security, parsing)
+
+2. **Routing**
+
+   - URL & method determine whether to hit an API or Web router.
+
+3. **Controller**
+
+   - Validates input (Zod), calls the appropriate Service, sends JSON or renders an EJS view.
+
+4. **Service**
+
+   - Implements business logic, calls Repository methods.
+
+5. **Repository**
+
+   - Calls Prisma or Redis to persist/retrieve data.
+
+6. **Response**
+
+   - Data bubbles back through Service → Controller → client.
+
+---
+
+## Benefits of This Architecture
+
+1. **Separation of Concerns**
+
+   - Each layer has a single responsibility, simplifying both comprehension and maintenance.
+
+2. **Testability**
+
+   - Services and repositories can be unit-tested in isolation by mocking out infrastructure adapters.
+
+3. **Scalability**
+
+   - Add new interfaces (e.g. GraphQL) or swap out Prisma for another ORM with minimal impact on core business logic.
+
+4. **Maintainability**
+
+   - Clear folder boundaries guide contributors:
+
+     - **`domains/`** for business logic
+     - **`api/`** / **`web/`** for endpoints
+     - **`infrastructures/`** for external integrations
+
+</details>
+
 ## Project Structure
 
 <details>
