@@ -412,45 +412,43 @@ Prisma Client & Redis
 <details open>
 <summary>Phase 6: Basic RESTful CRUD endpoints and views</summary>
 
-### Completed
-
 - Create Register page (basic UI)
 - Create Login page (basic UI)
-- Add prisma errors into error handling middleware
-- Change file organization
-- Update README.md
-- Refactor error structure from string[] to Record<string, string>
-
-### In progress
-
-- Session restful crud
-  - JWT + bcrypt
-- User restful crud
-
-### TODO
-
-- Admin page
-- Route guard for pages and endpoints
-- Improve validation messages from prisma orm
-- Make sure all the middlewares in index.ts and router files are working as inteded
-- Domain Layer Purity ? There is leak
-- Infrastructure vs Middleware. Some files are misplaced. Maybe logic is not understood properly
-- Null‐checks: In your session service, you do user?.id when signing your JWT; if getUserByEmail returns null, you’ll sign { userId: undefined }. Either ensure the user exists (throw an error) before hashing or keep your types consistent.
+- Session restful endpoint
+- User restful endpoint
+- Add an auth requiring CRUD endpoint consuming page
+  - Route guard for page and endpoints
 
 </details>
 
 <details>
-<summary>Phase 7: Observability & Monitoring</summary>
+<summary>Phase 7: Overall Improvements & Refactors</summary>
+
+- Add prisma errors into error handling middleware
+- Change file organization
+- Update README.md
+- Refactor error structure from string[] to Record<string, string>
+- Improve validation messages from prisma orm
+- Make sure all the middlewares in index.ts and router files are working as intended
+- Domain Layer Purity ? There is leak
+- Infrastructure vs Middleware. Some files are misplaced. Maybe logic is not understood properly
+- Null‐checks: In your session service, you do user?.id when signing your JWT; if getUserByEmail returns null, you’ll sign { userId: undefined }. Either ensure the user exists (throw an error) before hashing or keep your types consistent.
+- Sanitize Data to Prevent Injection Attacks
+
+</details>
+
+<details>
+<summary>Phase 8: Observability & Monitoring</summary>
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
 - `/metrics` endpoint for Prometheus
 - **Correlation IDs**: inject unique request IDs for log tracing
-- Sentry integration + alerting (Slack/webhook)
+- Sentry integration + alerting
 </details>
 
 <details>
-<summary>Phase 8: Testing & CI/CD</summary>
+<summary>Phase 9: Testing & CI/CD</summary>
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -462,7 +460,7 @@ Prisma Client & Redis
 </details>
 
 <details>
-<summary>Phase 9: API Docs & Versioning</summary>
+<summary>Phase 10: API Docs & Versioning</summary>
 
 - OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
 - Postman collection in repo
@@ -470,22 +468,13 @@ Prisma Client & Redis
 </details>
 
 <details>
-<summary>Phase 10: Performance & Caching</summary>
+<summary>Phase 11: Performance & Caching</summary>
 
 - Static‑asset CDN + cache headers
 - Template caching (in‑memory or Redis)
 - DB query optimization & indexing
 - Response compression middleware
 </details>
-
-<details>
-<summary>Phase 11: Front‑End Rebuild</summary>
-
-- React/Next.js front‑end consuming your API
-- Netlify/Vercel (or S3/CloudFront) CI/CD
-- Theming, WCAG accessibility, responsive design
-- 404 & 5xx EJS error pages
-  </details>
 
 <details>
 <summary>Phase 12: Infra & Deployment</summary>
@@ -504,23 +493,12 @@ Prisma Client & Redis
 <summary>Phase 13: Postponed Tasks</summary>
 
 - Persistent session with express session
-- **Document Docker Compose usage**: note `-f docker-compose.dev.yaml` and `-f docker-compose.prod.yaml` for respective environments
+- Document Docker Compose usage
 - Add how to run in prod into README.md
 - Add how to deploy into README.md
 - **Docker Live Reload --watch** Docker doesn't live reload FE. Fix it.
 - **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
-- Route guard for API endpoints
-- different app for api and web? middleware confusion
-</details>
-
-<details>
-<summary>Phase 14: Optional Extras</summary>
-
-- Translated errors
-- Headless CMS (Strapi/Ghost/Sanity) for blog
-- WebSockets/SSE for real‑time admin notifications
-- GraphQL gateway atop REST
-- **Feature flags**: toggle new features via ENV or flags service
+- different entry points for api and web
 </details>
 
 ## License
