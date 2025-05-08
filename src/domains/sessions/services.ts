@@ -1,8 +1,7 @@
-import { env } from "@config/env"
 import { UnauthorizedError, InternalServerError } from "@errors/custom-errors"
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
 import { getUserByEmail } from "./repositories"
+import { compareHash } from "@infrastructures/bcrypt"
+import { signToken } from "@infrastructures/jwt"
 
 type CreateSessionServiceParams = {
   email: string
@@ -15,19 +14,22 @@ export const createSessionService = async ({
 }: CreateSessionServiceParams) => {
   const user = await getUserByEmail(email)
 
-  const isPasswordValid = await bcrypt.compare(password, user?.password || "")
+  const isPasswordValid = await compareHash(password, user.password)
 
   if (!isPasswordValid) {
     throw new UnauthorizedError({ message: "Invalid password." })
   }
 
-  const token = jwt.sign({ userId: user?.id }, env.jwtSecret, {
-    expiresIn: "1h",
-  })
+  const token = signToken(
+    { userId: user.id },
+    {
+      expiresIn: "1h",
+    }
+  )
 
   if (!token) {
     throw new InternalServerError({ message: "Failed to create token" })
   }
 
-  return { token }
+  return { token, user }
 }

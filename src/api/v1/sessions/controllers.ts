@@ -11,10 +11,14 @@ export const createSessionController = async (
 ) => {
   const { email, password } = req.body
 
-  const { token } = await createSessionService({ email, password })
+  const { token, user } = await createSessionService({
+    email,
+    password,
+  })
 
   return res.status(201).json({
     message: "Successfully created a session.",
     token,
+    user,
   })
 }
