@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs"
+import { hash } from "@infrastructures/bcrypt"
 import { createUser } from "./repositories"
 
 type CreateUserServiceParams = {
@@ -10,7 +10,7 @@ export const createUserService = async ({
   email,
   password,
 }: CreateUserServiceParams) => {
-  const hashedPassword = bcrypt.hashSync(password, 10)
+  const hashedPassword = await hash(password)
 
   return await createUser(email, hashedPassword)
 }
