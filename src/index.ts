@@ -50,6 +50,7 @@ app.use(
     extended: true,
     limit: "10kb",
   }),
+  csurf({ cookie: { ...cookieOptions, key: "XSRF-TOKEN" } }),
   apiHelmet,
   rateLimiter,
   apiV1Router,
