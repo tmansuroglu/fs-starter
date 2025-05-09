@@ -2,20 +2,21 @@ import express from "express"
 import path from "path"
 import { Server } from "http"
 import { env } from "@config/env"
-import { permissionsPolicyMiddleware } from "@middlewares/permission-policy"
+import { permissionsPolicySettings } from "@infrastructures/permission-policy"
 import { apiErrorHandlerMiddleware } from "@middlewares/api-error-handler"
 import cookieParser from "cookie-parser"
 import csurf from "csurf"
 import { injectViewLocalsMiddleware } from "@middlewares/view-locals"
-import { rateLimiterMiddleware } from "@middlewares/rate-limiter"
-import { cookieOptions, sessionMiddleware } from "@middlewares/session"
-import { httpsRedirectMiddleware } from "@middlewares/https-redirect"
+import { rateLimiter } from "@infrastructures/rate-limiter"
+import { sessionMiddleware } from "@middlewares/session"
+import { httpsRedirect } from "@infrastructures/https-redirect"
 import { NodeEnvEnum } from "@utils/enums"
 import { apiHelmet, htmlHelmet } from "@infrastructures/csp"
 import { corsSettings } from "@infrastructures/cors"
 import { registerShutdownHooks } from "@infrastructures/shutdown"
 import { webRouter } from "@web/router"
 import { apiV1Router } from "@api/v1/router"
+import { cookieOptions } from "@config/cookie-options"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -25,7 +26,7 @@ let server: Server
 
 const app = express()
 
-app.use(httpsRedirectMiddleware)
+app.use(httpsRedirect)
 
 app.use(corsSettings)
 
@@ -50,7 +51,7 @@ app.use(
     limit: "10kb",
   }),
   apiHelmet,
-  rateLimiterMiddleware,
+  rateLimiter,
   apiV1Router,
   apiErrorHandlerMiddleware
 )
@@ -60,7 +61,7 @@ app.use(
   "/",
   express.urlencoded({ extended: true, limit: "10kb" }),
   htmlHelmet,
-  permissionsPolicyMiddleware,
+  permissionsPolicySettings,
   csurf({ cookie: { ...cookieOptions, key: "XSRF-TOKEN" } }),
   injectViewLocalsMiddleware,
   webRouter

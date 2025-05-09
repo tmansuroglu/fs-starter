@@ -1,5 +1,5 @@
 import { validate } from "@middlewares/validation"
-import { asyncHandlerMiddleware } from "@middlewares/async-handler"
+import { asyncHandler } from "@utils/async-handler"
 import { Router } from "express"
 import { createSessionSchema } from "./schemas"
 import { createSessionController, deleteSessionController } from "./controllers"
@@ -10,13 +10,13 @@ const sessionsRouter = Router()
 sessionsRouter.post(
   "/",
   validate(createSessionSchema),
-  asyncHandlerMiddleware(createSessionController)
+  asyncHandler(createSessionController)
 )
 
 sessionsRouter.delete(
   "/",
   apiAuthMiddleware,
-  asyncHandlerMiddleware(deleteSessionController)
+  asyncHandler(deleteSessionController)
 )
 
 export { sessionsRouter }

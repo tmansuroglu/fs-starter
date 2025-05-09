@@ -5,15 +5,15 @@ import { NodeEnvEnum } from "@utils/enums"
 import { InvalidIpError, TooManyRequestError } from "@errors/custom-errors"
 import { redisClient } from "@infrastructures/redis-client"
 
-const rateLimiter = new RateLimiterRedis({
+const rateLimiterSettings = new RateLimiterRedis({
   storeClient: redisClient,
-  keyPrefix: "middleware",
+  keyPrefix: "fs-starter:rl:api:global",
   points: 5,
   duration: 60,
   useRedisPackage: true,
 })
 
-export const rateLimiterMiddleware: RequestHandler = async (req, res, next) => {
+export const rateLimiter: RequestHandler = async (req, res, next) => {
   if (env.nodeEnv !== NodeEnvEnum.Production) {
     return next()
   }
@@ -24,7 +24,7 @@ export const rateLimiterMiddleware: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    await rateLimiter.consume(ip)
+    await rateLimiterSettings.consume(ip)
     return next()
   } catch (rlRes) {
     const retrySeconds = Math.ceil(
