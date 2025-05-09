@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { UnauthorizedError } from "@errors/custom-errors"
 
-export function authMiddleware(
+export function apiAuthMiddleware(
   req: Request,
   _res: Response,
   next: NextFunction

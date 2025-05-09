@@ -23,3 +23,11 @@ export const renderLoginPage: RequestHandler = (req, res) => {
     stylesheets: ["/css/login.css"],
   })
 }
+
+export const renderAdminPage: RequestHandler = (req, res) => {
+  res.render("layout", {
+    title: "Admin page",
+    page: "admin",
+    stylesheets: [],
+  })
+}

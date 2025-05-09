@@ -1,10 +1,12 @@
 import { env } from "@config/env"
 import {
+  renderAdminPage,
   renderHomePage,
   renderLoginPage,
   renderRegisterPage,
 } from "./controllers"
 import express, { NextFunction, Request, Response } from "express"
+import { webAuthMiddleware } from "@middlewares/web-auth"
 
 const webRouter = express.Router()
 
@@ -13,6 +15,8 @@ webRouter.get("/", renderHomePage)
 webRouter.get("/register", renderRegisterPage)
 
 webRouter.get("/login", renderLoginPage)
+
+webRouter.get("/admin", webAuthMiddleware, renderAdminPage)
 
 webRouter.use((req: Request, res: Response) => {
   res.status(404).render("404")
