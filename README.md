@@ -422,28 +422,21 @@ Prisma Client & Redis
 
 </details>
 
-<details open>
-<summary>Phase 7: Overall Improvements & Refactors (IN PROGRESS)</summary>
-
-### Completed
+<details>
+<summary>Phase 7: Overall Improvements & Refactors (COMPLETED)</summary>
 
 - Add prisma errors into error handling middleware
 - Domain Layer Purity ? There is leak
 - Change file organization
 - Update README.md
 - Refactor error structure from string[] to Record<string, string>
-
-### TODO:
-
-- Improve validation messages from prisma orm
 - Make sure all the middlewares in index.ts and router files are working as intended
-- Infrastructure vs Middleware. Some files are misplaced. Maybe logic is not understood properly
 - Sanitize Data to Prevent Injection Attacks
 
 </details>
 
-<details>
-<summary>Phase 8: Observability & Monitoring</summary>
+<details open>
+<summary>Phase 8: Observability & Monitoring (IN PROGRESS)</summary>
 
 - **Basic logging** (Morgan in dev) & `/healthz` health‑check
 - Structured logging (Pino for JSON output, log levels)
@@ -505,6 +498,7 @@ Prisma Client & Redis
 - **Docker Live Reload --watch** Docker doesn't live reload FE. Fix it.
 - **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
 - different entry points for api and web
+- Infrastructure vs Middleware. Some files are misplaced.
 </details>
 
 ## License
