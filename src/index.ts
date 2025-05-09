@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser"
 import csurf from "csurf"
 import { injectViewLocalsMiddleware } from "@middlewares/view-locals"
 import { rateLimiterMiddleware } from "@middlewares/rate-limiter"
-import { sessionMiddleware } from "@middlewares/session"
+import { cookieOptions, sessionMiddleware } from "@middlewares/session"
 import { httpsRedirectMiddleware } from "@middlewares/https-redirect"
 import { NodeEnvEnum } from "@utils/enums"
 import { apiHelmet, htmlHelmet } from "@infrastructures/csp"
@@ -61,7 +61,7 @@ app.use(
   express.urlencoded({ extended: true, limit: "10kb" }),
   htmlHelmet,
   permissionsPolicyMiddleware,
-  csurf({ cookie: false }),
+  csurf({ cookie: { ...cookieOptions, key: "XSRF-TOKEN" } }),
   injectViewLocalsMiddleware,
   webRouter
 )

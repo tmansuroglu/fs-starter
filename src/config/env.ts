@@ -52,14 +52,6 @@ const EnvSchema = z
       .min(1, { message: "PORT must be ≥ 1" })
       .max(65535, { message: "PORT must be ≤ 65535" }),
 
-    JWT_SECRET: z
-      .string({
-        required_error: "JWT_SECRET is required",
-        invalid_type_error: "JWT_SECRET must be a string",
-      })
-      .min(32, { message: "JWT_SECRET must be at least 32 characters" })
-      .max(512, { message: "JWT_SECRET seems too long" }),
-
     REDIS_PASSWORD: z
       .string({
         required_error: "REDIS_PASSWORD is required",
@@ -99,7 +91,6 @@ type EnvConfig = {
   databaseUrl: string
   dbPort: number
   port: number
-  jwtSecret: string
   postgresUser: string
   postgresPassword: string
   postgresDb: string
@@ -115,7 +106,6 @@ export const env: EnvConfig = {
   databaseUrl: parsedEnv.DATABASE_URL,
   dbPort: parsedEnv.DB_PORT,
   port: parsedEnv.PORT,
-  jwtSecret: parsedEnv.JWT_SECRET,
   postgresUser: parsedEnv.POSTGRES_USER,
   postgresPassword: parsedEnv.POSTGRES_PASSWORD,
   postgresDb: parsedEnv.POSTGRES_DB,

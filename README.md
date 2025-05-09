@@ -416,8 +416,9 @@ Prisma Client & Redis
 - Create Login page (basic UI)
 - Session restful endpoint
 - User restful endpoint
-- Add an auth requiring CRUD endpoint consuming page
-  - Route guard for page and endpoints
+- Add an auth requiring page
+- Route guard for api
+- Route guard for web
 
 </details>
 
@@ -445,6 +446,7 @@ Prisma Client & Redis
 - `/metrics` endpoint for Prometheus
 - **Correlation IDs**: inject unique request IDs for log tracing
 - Sentry integration + alerting
+- If redisClient ever goes down, your app will throw on every request. You can add a small retry/backoff or a health-check endpoint to monitor Redis availability.
 </details>
 
 <details>
