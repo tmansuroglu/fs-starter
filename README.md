@@ -443,17 +443,16 @@ Prisma Client & Redis
 - **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
 </details>
 
-<details open>
-<summary>Phase 9: Performance & Caching (IN PROGRESS)</summary>
+<details>
+<summary>Phase 9: Performance & Caching (COMPLETED)</summary>
 
-- Static‑asset CDN + cache headers
-- Template caching (in‑memory or Redis)
+- Template caching (in‑memory)
 - DB query optimization & indexing
 - Response compression middleware
 </details>
 
-<details>
-<summary>Phase 10: Testing & CI/CD</summary>
+<details open>
+<summary>Phase 10: Testing & CI/CD (IN PROGRESS)</summary>
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -490,6 +489,7 @@ Prisma Client & Redis
 - **Transaction boundaries**: wrap multi‑step operations in `prisma.$transaction(…)`
 - different entry points for api and web
 - Infrastructure vs Middleware. Some files are misplaced.
+- Static‑asset CDN + cache headers
 </details>
 
 ## License
