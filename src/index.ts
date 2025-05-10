@@ -17,6 +17,8 @@ import { registerShutdownHooks } from "@infrastructures/shutdown"
 import { webRouter } from "@web/router"
 import { apiV1Router } from "@api/v1/router"
 import { cookieOptions } from "@config/cookie-options"
+import requestId from "express-request-id"
+import { pinoLogger } from "@infrastructures/logger"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -25,6 +27,14 @@ import { cookieOptions } from "@config/cookie-options"
 let server: Server
 
 const app = express()
+
+app.use(
+  requestId({
+    headerName: "x-request-id",
+  })
+)
+
+app.use(pinoLogger)
 
 app.use(httpsRedirect)
 
