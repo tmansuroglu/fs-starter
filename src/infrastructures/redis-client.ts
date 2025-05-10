@@ -5,19 +5,25 @@ import { env } from "@config/env"
 export const redisClient = new Redis({
   host: env.redisHost,
   port: env.redisPort,
-  enableOfflineQueue: true,
   password: env.redisPassword,
+  enableOfflineQueue: true,
   maxRetriesPerRequest: null,
+  connectTimeout: 10_000,
   reconnectOnError: (err) => {
     return err.message.includes("READONLY")
   },
-  connectTimeout: 10_000,
+  // exponential backoff: retry after ~50ms, 100ms, 200ms … up to 2s
+  retryStrategy: (times) => {
+    const delay = Math.min(times * 50, 2_000)
+
+    return delay
+  },
 })
 
-redisClient.on("ready", () => console.log("Redis connected"))
-
-redisClient.on("error", (err) => {
-  console.log("port", env.redisPort)
-  console.log("redisHost", env.redisHost)
-  console.error("Redis error", err)
-})
+redisClient.on("connect", () => console.log("→ Redis connecting…"))
+redisClient.on("ready", () => console.log("→ Redis connected"))
+redisClient.on("error", (err) => console.error("Redis error:", err))
+redisClient.on("close", () => console.warn("Redis connection closed"))
+redisClient.on("reconnecting", () =>
+  console.log("Redis attempting to reconnect")
+)
