@@ -19,6 +19,7 @@ import requestId from "express-request-id"
 import { pinoLogger } from "@infrastructures/logger"
 import { setupSwagger } from "@api/v1/docs/swagger"
 import { csurfMiddleware } from "@infrastructures/csurf"
+import { brotliCompression } from "@infrastructures/zlib"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -27,6 +28,8 @@ import { csurfMiddleware } from "@infrastructures/csurf"
 let server: Server
 
 const app = express()
+
+app.use(brotliCompression)
 
 app.set("view cache", true)
 
