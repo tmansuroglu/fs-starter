@@ -53,7 +53,14 @@ app.set("views", path.join(__dirname, "web/pages"))
 
 registerShutdownHooks(() => server)
 
-app.use("/", express.static(path.join(__dirname, "web/public")))
+app.use(
+  "/",
+  express.static(path.join(__dirname, "web/public"), {
+    maxAge: "1y",
+    etag: true,
+    lastModified: true,
+  })
+)
 
 app.use(cookieParser(env.sessionSecret))
 
