@@ -1,30 +1,23 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ZodSchema } from "zod"
+import { ZodTypeAny } from "zod"
 import type { NextFunction, Request, Response } from "express"
 import { FieldErrors } from "@utils/api-error-responder"
 import { BadRequestError } from "@errors/custom-errors"
 
 // 1. Pull out the full parsed output type from any ZodSchema
-type SchemaOutput<Schema extends ZodSchema<any>> =
-  Schema extends ZodSchema<infer Output> ? Output : never
+type SchemaOutput<Schema extends ZodTypeAny> = import("zod").infer<Schema>
 
 // 2. Extract each part of the HTTP request by a clear, descriptive name
-type RequestParamsFrom<Schema extends ZodSchema<any>> =
-  SchemaOutput<Schema> extends { params: infer InferredParams }
-    ? InferredParams
-    : {}
-
-type RequestBodyFrom<Schema extends ZodSchema<any>> =
-  SchemaOutput<Schema> extends { body: infer InferredBody } ? InferredBody : {}
-
-type RequestQueryFrom<Schema extends ZodSchema<any>> =
-  SchemaOutput<Schema> extends { query: infer InferredQuery }
-    ? InferredQuery
-    : {}
+type RequestParamsFrom<Schema extends ZodTypeAny> =
+  SchemaOutput<Schema> extends { params: infer P } ? P : {}
+type RequestBodyFrom<Schema extends ZodTypeAny> =
+  SchemaOutput<Schema> extends { body: infer B } ? B : {}
+type RequestQueryFrom<Schema extends ZodTypeAny> =
+  SchemaOutput<Schema> extends { query: infer Q } ? Q : {}
 
 // 3. Build a Request type that uses those descriptive pieces
-export type ValidatedRequest<Schema extends ZodSchema<any>> = Request<
+export type ValidatedRequest<Schema extends ZodTypeAny> = Request<
   RequestParamsFrom<Schema>, // req.params shape
   any, // response body type (ignored)
   RequestBodyFrom<Schema>, // req.body shape
@@ -32,13 +25,13 @@ export type ValidatedRequest<Schema extends ZodSchema<any>> = Request<
 >
 
 // 4. And the handler signature we return
-type ZodValidationHandler<Schema extends ZodSchema<any>> = (
+type ZodValidationHandler<Schema extends ZodTypeAny> = (
   req: ValidatedRequest<Schema>,
   res: Response,
   next: NextFunction
 ) => void
 
-export function validate<Schema extends ZodSchema<any>>(
+export function validate<Schema extends ZodTypeAny>(
   schema: Schema
 ): ZodValidationHandler<Schema> {
   return (req, res, next) => {

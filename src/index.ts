@@ -19,6 +19,7 @@ import { apiV1Router } from "@api/v1/router"
 import { cookieOptions } from "@config/cookie-options"
 import requestId from "express-request-id"
 import { pinoLogger } from "@infrastructures/logger"
+import { setupSwagger } from "@api/v1/docs/swagger"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -27,6 +28,8 @@ import { pinoLogger } from "@infrastructures/logger"
 let server: Server
 
 const app = express()
+
+setupSwagger(app)
 
 app.use(
   requestId({

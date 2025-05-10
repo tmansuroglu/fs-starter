@@ -1,9 +1,9 @@
 import { ValidatedRequest } from "@middlewares/validation"
 import { Response } from "express"
-import { createUserSchema } from "./schemas"
+import { CreateUserRequestSchema, CreateUserResponse } from "./schemas"
 import { createUserService } from "@domains/users/services"
 
-type CreateUserRequest = ValidatedRequest<typeof createUserSchema>
+type CreateUserRequest = ValidatedRequest<typeof CreateUserRequestSchema>
 
 export const createUserController = async (
   req: CreateUserRequest,
@@ -13,7 +13,9 @@ export const createUserController = async (
 
   await createUserService({ email, password })
 
-  return res.status(201).json({
+  const payload: CreateUserResponse = {
     message: "Successfully created a user.",
-  })
+  }
+
+  return res.status(201).json(payload)
 }
