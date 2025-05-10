@@ -432,22 +432,29 @@ Prisma Client & Redis
 - Refactor error structure from string[] to Record<string, string>
 - Make sure all the middlewares in index.ts and router files are working as intended
 - Sanitize Data to Prevent Injection Attacks
-
+- Structured logging (Pino for JSON output, log levels)
+- Add retry strategy to redis client
 </details>
 
 <details open>
-<summary>Phase 8: Observability & Monitoring (IN PROGRESS)</summary>
+<summary>Phase 8: API Docs & Versioning (IN PROGRESS)</summary>
 
-- **Basic logging** (Morgan in dev) & `/healthz` health‑check
-- Structured logging (Pino for JSON output, log levels)
-- `/metrics` endpoint for Prometheus
-- **Correlation IDs**: inject unique request IDs for log tracing
-- Sentry integration + alerting
-- If redisClient ever goes down, your app will throw on every request. You can add a small retry/backoff or a health-check endpoint to monitor Redis availability.
+- OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
+- Postman collection in repo
+- **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
 </details>
 
 <details>
-<summary>Phase 9: Testing & CI/CD</summary>
+<summary>Phase 9: Performance & Caching</summary>
+
+- Static‑asset CDN + cache headers
+- Template caching (in‑memory or Redis)
+- DB query optimization & indexing
+- Response compression middleware
+</details>
+
+<details>
+<summary>Phase 10: Testing & CI/CD</summary>
 
 - **Unit tests** (Jest) for services & repositories (mocking Prisma)
 - **Integration tests** (Supertest) on web & API routes
@@ -457,26 +464,8 @@ Prisma Client & Redis
 - Semantic Release (CHANGELOG, version bump, GitHub Release)
 - Remember to add test script for graceful DB shutdown in index.ts
 </details>
-
 <details>
-<summary>Phase 10: API Docs & Versioning</summary>
-
-- OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
-- Postman collection in repo
-- **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
-</details>
-
-<details>
-<summary>Phase 11: Performance & Caching</summary>
-
-- Static‑asset CDN + cache headers
-- Template caching (in‑memory or Redis)
-- DB query optimization & indexing
-- Response compression middleware
-</details>
-
-<details>
-<summary>Phase 12: Infra & Deployment</summary>
+<summary>Phase 11: Infra & Deployment</summary>
 
 - Multi‑stage Docker builds for minimal images
 - **NGINX**: reverse‑proxy configuration & SSL termination
@@ -489,8 +478,10 @@ Prisma Client & Redis
 </details>
 
 <details>
-<summary>Phase 13: Postponed Tasks</summary>
-
+<summary>Phase 12: Postponed Tasks</summary>
+- `/metrics` endpoint for Prometheus
+- health-check endpoint to monitor Redis availability.
+- Sentry integration + alerting
 - Persistent session with express session
 - Document Docker Compose usage
 - Add how to run in prod into README.md
