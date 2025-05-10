@@ -24,7 +24,6 @@ export const createSessionController = async (
 
   const payload: CreateSessionResponse = {
     message: "Successfully created a session.",
-    user,
   }
 
   return res.status(201).json(payload)

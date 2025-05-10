@@ -1,5 +1,5 @@
 import { RouteConfig } from "@asteasolutions/zod-to-openapi"
-import { EmailSchema, PasswordSchema, UserSchema } from "@utils/common-schemas"
+import { EmailSchema, PasswordSchema } from "@utils/common-schemas"
 import { z } from "zod"
 
 const CreateSessionRequestPayloadSchema = z.object({
@@ -13,7 +13,6 @@ export const CreateSessionRequestSchema = z.object({
 
 const CreateSessionResponseSchema = z.object({
   message: z.string(),
-  user: UserSchema,
 })
 
 export type CreateSessionResponse = z.infer<typeof CreateSessionResponseSchema>
