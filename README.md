@@ -478,6 +478,7 @@ Prisma Client & Redis
 
 <details>
 <summary>Phase 12: Postponed Tasks</summary>
+
 - `/metrics` endpoint for Prometheus
 - health-check endpoint to monitor Redis availability.
 - Sentry integration + alerting
