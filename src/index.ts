@@ -28,6 +28,8 @@ let server: Server
 
 const app = express()
 
+app.set("view cache", true)
+
 setupSwagger(app)
 
 app.use(
