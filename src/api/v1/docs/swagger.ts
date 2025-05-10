@@ -11,6 +11,8 @@ import {
   createSessionRegistry,
   deleteSessionRegistry,
 } from "../sessions/schemas"
+import { env } from "@config/env"
+import { NodeEnvEnum } from "@utils/enums"
 
 extendZodWithOpenApi(z)
 
@@ -33,6 +35,10 @@ const openApiDoc = generator.generateDocument({
 })
 
 export function setupSwagger(app: Express) {
+  if (env.nodeEnv === NodeEnvEnum.Production) {
+    return
+  }
+
   app.get("/docs/openapi.json", (_req, res) => {
     res.json(openApiDoc)
   })
