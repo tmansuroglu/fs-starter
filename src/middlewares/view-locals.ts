@@ -1,4 +1,5 @@
 import { env } from "@config/env"
+import { NodeEnvEnum } from "@utils/enums"
 import type { Request, Response, NextFunction } from "express"
 
 export function injectViewLocalsMiddleware(
@@ -6,7 +7,8 @@ export function injectViewLocalsMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  res.locals.csrfToken = req.csrfToken()
+  res.locals.csrfToken =
+    env.nodeEnv === NodeEnvEnum.Production ? req.csrfToken() : null
 
   res.locals.env = env.nodeEnv
 
