@@ -436,16 +436,15 @@ Prisma Client & Redis
 - Add retry strategy to redis client
 </details>
 
-<details open>
-<summary>Phase 8: API Docs & Versioning (IN PROGRESS)</summary>
+<details>
+<summary>Phase 8: API Docs & Versioning (COMPLETED)</summary>
 
 - OpenAPI/Swagger spec (`/docs/openapi.yaml`) + Swagger UI at `/docs`
-- Postman collection in repo
 - **API versioning strategy**: mount routes under `/api/v1`, update docs accordingly
 </details>
 
-<details>
-<summary>Phase 9: Performance & Caching</summary>
+<details open>
+<summary>Phase 9: Performance & Caching (IN PROGRESS)</summary>
 
 - Static‑asset CDN + cache headers
 - Template caching (in‑memory or Redis)
