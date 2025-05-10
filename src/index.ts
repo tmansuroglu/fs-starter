@@ -5,7 +5,6 @@ import { env } from "@config/env"
 import { permissionsPolicySettings } from "@infrastructures/permission-policy"
 import { apiErrorHandlerMiddleware } from "@middlewares/api-error-handler"
 import cookieParser from "cookie-parser"
-import csurf from "csurf"
 import { injectViewLocalsMiddleware } from "@middlewares/view-locals"
 import { rateLimiter } from "@infrastructures/rate-limiter"
 import { sessionMiddleware } from "@middlewares/session"
@@ -16,10 +15,10 @@ import { corsSettings } from "@infrastructures/cors"
 import { registerShutdownHooks } from "@infrastructures/shutdown"
 import { webRouter } from "@web/router"
 import { apiV1Router } from "@api/v1/router"
-import { cookieOptions } from "@config/cookie-options"
 import requestId from "express-request-id"
 import { pinoLogger } from "@infrastructures/logger"
 import { setupSwagger } from "@api/v1/docs/swagger"
+import { csurfMiddleware } from "@infrastructures/csurf"
 
 // TODO: consider this while going prod
 // app.set('trust proxy', 1);
@@ -63,7 +62,7 @@ app.use(
     extended: true,
     limit: "10kb",
   }),
-  csurf({ cookie: { ...cookieOptions, key: "XSRF-TOKEN" } }),
+  csurfMiddleware,
   apiHelmet,
   rateLimiter,
   apiV1Router,
@@ -76,7 +75,7 @@ app.use(
   express.urlencoded({ extended: true, limit: "10kb" }),
   htmlHelmet,
   permissionsPolicySettings,
-  csurf({ cookie: { ...cookieOptions, key: "XSRF-TOKEN" } }),
+  csurfMiddleware,
   injectViewLocalsMiddleware,
   webRouter
 )
