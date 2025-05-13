@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "migrate-dev": "npx dotenv -e .env.dev -- prisma migrate dev",
     "migrate-deploy": "npx dotenv -e .env.dev -- prisma migrate deploy",
     "generate-dev": "npx dotenv -e .env.dev -- prisma generate",
@@ -59,6 +59,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
+    "jest": "^29.7.0",
     "lint-staged": "^15.5.1",
     "pino-pretty": "^13.0.0",
     "prettier": "3.5.3",
