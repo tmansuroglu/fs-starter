@@ -12,6 +12,7 @@ const config: Config = {
 
   // Stop running tests after `n` failures
   // bail: 0,
+  testTimeout: 120_000,
 
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/private/var/folders/f8/8csrmvv10znfz4b49b1b7lsh0000gn/T/jest_dx",
@@ -20,7 +21,7 @@ const config: Config = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  // collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -102,6 +103,7 @@ const config: Config = {
     "^@errors/(.*)$": "<rootDir>/src/errors/$1",
     "^@web/(.*)$": "<rootDir>/src/web/$1",
     "^@custom-types/(.*)$": "<rootDir>/src/types/$1",
+    "^@test-utils/(.*)$": "<rootDir>/src/test-utils/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -144,10 +146,10 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+  // setupFiles: ["<rootDir>/src/test-utils/test-setup.ts"],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: ["<rootDir>/src/singleton.ts"],
+  // setupFilesAfterEnv: ["<rootDir>/src/test-utils/test-setup.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -156,7 +158,7 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: "<rootDir>/src/test-utils/jest-environment.ts",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

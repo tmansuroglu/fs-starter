@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "npx dotenv -e .env.dev -- jest",
     "migrate-dev": "npx dotenv -e .env.dev -- prisma migrate dev",
     "migrate-deploy": "npx dotenv -e .env.dev -- prisma migrate deploy",
     "generate-dev": "npx dotenv -e .env.dev -- prisma generate",
@@ -44,6 +44,7 @@
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@eslint/js": "^9.24.0",
+    "@testcontainers/postgresql": "^10.26.0",
     "@types/compression": "^1.7.5",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
