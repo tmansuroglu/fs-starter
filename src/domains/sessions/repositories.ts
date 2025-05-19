@@ -1,7 +1,7 @@
 import { db } from "@infrastructures/db"
 
-export const getUserByEmail = async (email: string) =>
-  await db.user.findUniqueOrThrow({
+export const getUserByEmail = (email: string) =>
+  db.user.findUniqueOrThrow({
     where: { email },
     select: { id: true, password: true },
   })

@@ -454,7 +454,7 @@ Prisma Client & Redis
 <details open>
 <summary>Phase 10: Testing & CI/CD (IN PROGRESS)</summary>
 
-- **Unit tests** (Jest) for services & repositories (mocking Prisma)
+- **Unit tests** for services & repositories (Jest + Testcontainers)
 - **Integration tests** (Supertest) on web & API routes
 - Code‑coverage threshold enforcement
 - **Split App vs. Server**: extract `app.ts` (Express app) and `server.ts` (boot) for testability
